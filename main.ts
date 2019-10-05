@@ -1,4 +1,4 @@
-//% weight=0 color=#FF6347 icon="\uf707" block="Tomato:bit"
+//% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups='["Robot:bit", "電子零件及感應器", "mBridge"]'
 namespace tomatobit {
     export enum Ports {
@@ -133,7 +133,7 @@ namespace tomatobit {
         //% blockId="neopixel_rgb" block="red %red|green %green|blue %blue"
         //% group="Robot:bit"
         //% advanced=true
-        export function neopixel_rgb(red: number, green: number, blue: number): number {
+        export function rgb(red: number, green: number, blue: number): number {
             return packRGB(red, green, blue);
         }
 
