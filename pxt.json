@@ -1,0 +1,15 @@
+{
+    "name": "tomatobit",
+    "version": "0.0.1",
+    "description": "Extension for Robot:bit, mBridge and some component which is using Robot:bit",
+    "license": "Frankie Wong @ Tomato 3D Studio, based on MIT & KittenBot source code",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts",
+        "_locales/zh/tomatobit-strings.json"
+    ],
+    "public": true
+}
