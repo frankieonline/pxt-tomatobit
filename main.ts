@@ -119,7 +119,6 @@ namespace tomatobit {
         //% weight=1 blockGap=8
         //% blockId="neopixel_colors" block="%color"
         //% group="Robot:bit"
-        //% advanced=true
         export function colors(color: NeoPixelColors): number {
             return color;
         }
@@ -132,7 +131,6 @@ namespace tomatobit {
         //% weight=1
         //% blockId="neopixel_rgb" block="red %red|green %green|blue %blue"
         //% group="Robot:bit"
-        //% advanced=true
         export function rgb(red: number, green: number, blue: number): number {
             return packRGB(red, green, blue);
         }
