@@ -4,7 +4,7 @@ Extension for Robot:bit, mBridge and some component which is using Robot:bit
 
 ## License
 
-Frankie Wong @ Tomato 3D Studio, based on MIT & KittenBot source code
+MIT
 
 ## Supported targets
 

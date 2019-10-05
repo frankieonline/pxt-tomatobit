@@ -2,7 +2,7 @@
     "name": "tomatobit",
     "version": "0.0.1",
     "description": "Extension for Robot:bit, mBridge and some component which is using Robot:bit",
-    "license": "Frankie Wong @ Tomato 3D Studio, based on MIT & KittenBot source code",
+    "license": "MIT",
     "dependencies": {
         "core": "*"
     },
