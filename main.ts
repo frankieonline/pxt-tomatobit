@@ -41,61 +41,75 @@ enum Servos {
     S8 = 0x08
 }
 
+enum Ports {
+    PORT1 = 0,
+    PORT2 = 1,
+    PORT3 = 2,
+    PORT4 = 3
+}
+
+enum PortsA {
+    PORT1 = 0,
+    PORT2 = 1,
+    PORT3 = 2
+}
+
+enum DigitalIOPins {
+    P0 = DigitalPin.P0,
+    P1 = DigitalPin.P1,
+    P2 = DigitalPin.P2,
+    P8 = DigitalPin.P8,
+    P12 = DigitalPin.P12,
+    P13 = DigitalPin.P13,
+    P14 = DigitalPin.P14,
+    P15 = DigitalPin.P15
+}
+
+enum AnalogIOPins {
+    P0 = AnalogPin.P0,
+    P1 = AnalogPin.P1,
+    P2 = AnalogPin.P2
+}
+
+enum Slots {
+    //% block="Left"
+    A = 0,
+    //% block="Right"
+    B = 1
+}
+
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups=["Robot:bit", "Component & Sensor", "mBridge"]
 namespace tomatobit {
-    export enum Ports {
-        PORT1 = 0,
-        PORT2 = 1,
-        PORT3 = 2,
-        PORT4 = 3
-    }
-
-    export enum PortsA {
-        PORT1 = 0,
-        PORT2 = 1,
-        PORT3 = 2
-    }
-
-    export enum DigitalIOPins {
-        P0 = DigitalPin.P0,
-        P1 = DigitalPin.P1,
-        P2 = DigitalPin.P2,
-        P8 = DigitalPin.P8,
-        P12 = DigitalPin.P12,
-        P13 = DigitalPin.P13,
-        P14 = DigitalPin.P14,
-        P15 = DigitalPin.P15
-    }
-
-    export enum AnalogIOPins {
-        P0 = AnalogPin.P0,
-        P1 = AnalogPin.P1,
-        P2 = AnalogPin.P2
-    }
-
     const PortDigi = [
         [DigitalPin.P0, DigitalPin.P8],
         [DigitalPin.P1, DigitalPin.P12],
         [DigitalPin.P2, DigitalPin.P13],
         [DigitalPin.P14, DigitalPin.P15]
-    ]
+    ];
 
     const PortAnalog = [
         AnalogPin.P0,
         AnalogPin.P1,
         AnalogPin.P2,
         null
-    ]
-
-    export enum Slots {
-        A = 0,
-        B = 1
-    }
+    ];
 
     const PCA9685_ADDRESS = 0x40;
     const MODE1 = 0x00;
     const MODE2 = 0x01;
+    const SUBADR1 = 0x02
+    const SUBADR2 = 0x03
+    const SUBADR3 = 0x04
+    const PRESCALE = 0xFE
+    const LED0_ON_L = 0x06
+    const LED0_ON_H = 0x07
+    const LED0_OFF_L = 0x08
+    const LED0_OFF_H = 0x09
+    const ALL_LED_ON_L = 0xFA
+    const ALL_LED_ON_H = 0xFB
+    const ALL_LED_OFF_L = 0xFC
+    const ALL_LED_OFF_H = 0xFD
 
     //% shim=sendBufferAsm
     function sendBuffer(buf: Buffer, pin: DigitalPin) {
