@@ -54,23 +54,6 @@ enum PortsA {
     PORT3 = 2
 }
 
-enum DigitalIOPins {
-    P0 = DigitalPin.P0,
-    P1 = DigitalPin.P1,
-    P2 = DigitalPin.P2,
-    P8 = DigitalPin.P8,
-    P12 = DigitalPin.P12,
-    P13 = DigitalPin.P13,
-    P14 = DigitalPin.P14,
-    P15 = DigitalPin.P15
-}
-
-enum AnalogIOPins {
-    P0 = AnalogPin.P0,
-    P1 = AnalogPin.P1,
-    P2 = AnalogPin.P2
-}
-
 enum Slots {
     //% block="Left"
     A = 0,
@@ -322,7 +305,7 @@ namespace tomatobit {
     * @param index Servo Channel; eg: S1
     * @param degree [0-180] degree of servo; eg: 0, 90, 180
     */
-    //% blockId=robotbitServo block="Servo %index|degree %degree"
+    //% blockId="robotbitServo" block="Servo %index|degree %degree"
     //% group="Robot:bit"
     //% weight=899
     //% parts="tomatobit"
@@ -340,7 +323,7 @@ namespace tomatobit {
     /** External button
     * @param ioPins which IO Pin used
     */
-    //% blockId=externalButton block="External button|%ioPin| is pressed?"
+    //% blockId="externalButton" block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
     export function externalButton(ioPin: DigitalPin): boolean {
         return (pins.digitalReadPin(ioPin) ? true : false);
