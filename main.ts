@@ -343,6 +343,6 @@ namespace tomatobit {
     //% blockId=externalButton block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
     export function externalButton(ioPin: DigitalPin): boolean {
-        return pins.digitalReadPin(ioPin);
+        return (pins.digitalReadPin(ioPin) ? true : false);
     }
 }
