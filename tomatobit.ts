@@ -447,7 +447,7 @@ namespace tomatobit {
     //% weight=799
     //% x.min=0 x.max=15
     //% y.min=0 y.max=1
-    export function ledShowString(s: string, x: number, y: number): void {
+    export function lcdShowString(s: string, x: number, y: number): void {
         let a: number
 
         if (y > 0)
