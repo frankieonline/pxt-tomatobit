@@ -21,6 +21,23 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
+enum Digital_IOPins {
+    P0 = DigitalPin.P0,
+    P1 = DigitalPin.P1,
+    P2 = DigitalPin.P2,
+    P8 = DigitalPin.P8,
+    P12 = DigitalPin.P12,
+    P13 = DigitalPin.P13,
+    P14 = DigitalPin.P14,
+    P15 = DigitalPin.P15
+}
+
+enum Analog_IOPins {
+    P0 = AnalogPin.P0,
+    P1 = AnalogPin.P1,
+    P2 = AnalogPin.P2
+}
+
 enum LCD_AddressType {
     //% block="Auto Recognition (0)"
     auto = 0,
@@ -331,10 +348,10 @@ namespace tomatobit {
     /** External button
     * @param ioPin which IO Pin used
     */
-    //% blockId="externalButton" block="External button|%ioPin=PortDigi| is pressed?"
+    //% blockId="externalButton" block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
     //% weight=799
-    export function externalButton(ioPin: DigitalPin): boolean {
+    export function externalButton(ioPin: Digital_IOPins): boolean {
         return ((pins.digitalReadPin(ioPin) == 1) ? true : false);
     }
 
@@ -401,8 +418,8 @@ namespace tomatobit {
 
     /** Initialize LCD, set I2C address. According to the chip, there is two address,
     * PCF8574 is 39, PCF8574A is 63, 0 for auto recognition
-     * @param address is i2c address for LCD
-     */
+    * @param address is i2c address for LCD
+    */
     //% blockId="lcdSetAddress" block="Initialize LCD, set I2C address as %addr"
     //% group="Component & Sensor"
     //% weight=799
@@ -421,5 +438,111 @@ namespace tomatobit {
         cmd(0x0C);
         cmd(0x06);
         cmd(0x01);       // clear
+    }
+
+    /** Display numbers in the specified position of the LCD
+     * @param n is number will be show, eg: 10, 100, 200
+     * @param x is LCD column position, eg: 0
+     * @param y is LCD row position, eg: 0
+     */
+    //% blockId="lcdShowNumber" block="Show number %n|at position x %x|y %y"
+    //% group="Component & Sensor"
+    //% weight=799
+    //% x.min=0 x.max=15
+    //% y.min=0 y.max=1
+    export function lcdShowNumber(n: number, x: number, y: number): void {
+        let s = n.toString();
+        ledShowString(s, x, y);
+    }
+
+    /** Display string in the specified position of the LCD
+     * @param s is string will be show, eg: "Hello"
+     * @param x is LCD column position, [0 - 15], eg: 0
+     * @param y is LCD row position, [0 - 1], eg: 0
+     */
+    //% blockId="ledShowString" block="Show string %s|at position x %x|y %y"
+    //% group="Component & Sensor"
+    //% weight=799
+    //% x.min=0 x.max=15
+    //% y.min=0 y.max=1
+    //% parts=LCD1602_I2C trackArgs=0
+    export function ledShowString(s: string, x: number, y: number): void {
+        let a: number
+
+        if (y > 0)
+            a = 0xC0;
+        else
+            a = 0x80;
+        a += x;
+        cmd(a);
+
+        for (let i = 0; i < s.length; i++) {
+            dat(s.charCodeAt(i));
+        }
+    }
+
+    /** Turn on LCD Display
+     */
+    //% blockId="lcdOn" block="Turn on LCD"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdOn(): void {
+        cmd(0x0C);
+    }
+
+    /** Turn off LCD Display
+     */
+    //% blockId="lcdOff" block="Turn off LCD"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdOff(): void {
+        cmd(0x08);
+    }
+
+    /** Clear LCD Display
+     */
+    //% blockId="lcdClear" block="Clear LCD display"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdClear(): void {
+        cmd(0x01);
+    }
+
+    /** Turn on LCD Backlight
+     */
+    //% blockId="lcdBacklightOn" block="Turn on LCD Backlight"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdBacklightOn(): void {
+        BK = 8;
+        cmd(0);
+    }
+
+    /** Turn off LCD Backlight
+     */
+    //% blockId="lcdBacklightOff" block="Turn off LCD Backlight"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdBacklightOff(): void {
+        BK = 0;
+        cmd(0);
+    }
+
+    /** Screen shift left
+     */
+    //% blockId="lcdShiftLeft" block="Screen shift left"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdShiftLeft(): void {
+        cmd(0x18);
+    }
+
+    /** Screen shift right
+     */
+    //% blockId="lcdShiftRight" block="Screen shift right"
+    //% group="Component & Sensor"
+    //% weight=789
+    export function lcdShiftRight(): void {
+        cmd(0x1C);
     }
 }
