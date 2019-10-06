@@ -89,80 +89,81 @@ namespace tomatobit {
         show() {
             sendBuffer(this.buf, this.pin);
         }
+    }
 
-        function packRGB(a: number, b: number, c: number): number {
-            return ((a & 0xFF) << 16) | ((b & 0xFF) << 8) | (c & 0xFF);
-        }
-        function unpackR(rgb: number): number {
-            let r = (rgb >> 16) & 0xFF;
-            return r;
-        }
-        function unpackG(rgb: number): number {
-            let g = (rgb >> 8) & 0xFF;
-            return g;
-        }
-        function unpackB(rgb: number): number {
-            let b = (rgb) & 0xFF;
-            return b;
-        }
+    function packRGB(a: number, b: number, c: number): number {
+        return ((a & 0xFF) << 16) | ((b & 0xFF) << 8) | (c & 0xFF);
+    }
 
-        /** Get the RGB value of a NeoPixel known color
-        * @param knownColor NeoPixel known color
-        */
-        //% block="color: %knownColor"
-        //% blockId="getNeoPixelKnownColor"
-        //% group="Robot:bit"
-        //% weight=0
-        //% parts="tomatobit"
-        export function getNeoPixelKnownColor(knownColor: NeoPixelKnownColors):number {
-            return knownColor;
-        }
+    function unpackR(rgb: number): number {
+        let r = (rgb >> 16) & 0xFF;
+        return r;
+    }
+    function unpackG(rgb: number): number {
+        let g = (rgb >> 8) & 0xFF;
+        return g;
+    }
+    function unpackB(rgb: number): number {
+        let b = (rgb) & 0xFF;
+        return b;
+    }
 
-        /** Input RGB value of a color
-        * @param red RGB value of red
-        * @param green RGB value of green
-        * @param blue RGB value of blue
-        */
-        //% block="RGB(red: %red|green: %green|blue: %blue|)"
-        //% blockId="getRGBColor"
-        //% group="Robot:bit"
-        //% weight=0
-        //% red.min=0 red.max=255
-        //% green.min=0 green.max=255
-        //% blue.min=0 blue.max=255
-        //% parts="tomatobit"
-        export function getRGBColor(red: number, green: number, blue: number):number {
-            return packRGB(red, green, blue);
-        }
+    /** Get the RGB value of a NeoPixel known color
+    * @param knownColor NeoPixel known color
+    */
+    //% block="color: %knownColor"
+    //% blockId="getNeoPixelKnownColor"
+    //% group="Robot:bit"
+    //% weight=0
+    //% parts="tomatobit"
+    export function getNeoPixelKnownColor(knownColor: NeoPixelKnownColors):number {
+        return knownColor;
+    }
 
-        /** Set Robot:bit LEDs
-        * @param start offset in the Robot:bit LEDs to start the range
-        * @param length number of LEDs in the range. max: 4
-        * @param rgb RGB color of the LEDs
-        */
-        //% block="Set Robot:bit LEDs range from %start|with %length|LEDs show color %rgb=getNeoPixelKnownColor"
-        //% blockId="setLEDs"
-        //% group="Robot:bit"
-        //% weight=10
-        //% start.min=0 start.max=3
-        //% length.min=0 length.max=4
-        //% parts="tomatobit"
-        export function setLEDs(start: number, length: number, rgb: number): void {
-            let strip = new Strip();
-            let pin = DigitalPin.P16;
-            start = start >> 0;
-            length = length >> 0;
-            rgb = rgb >> 0;
+    /** Input RGB value of a color
+    * @param red RGB value of red
+    * @param green RGB value of green
+    * @param blue RGB value of blue
+    */
+    //% block="RGB(red: %red|green: %green|blue: %blue|)"
+    //% blockId="getRGBColor"
+    //% group="Robot:bit"
+    //% weight=0
+    //% red.min=0 red.max=255
+    //% green.min=0 green.max=255
+    //% blue.min=0 blue.max=255
+    //% parts="tomatobit"
+    export function getRGBColor(red: number, green: number, blue: number):number {
+        return packRGB(red, green, blue);
+    }
 
-            strip.buf = pin.createBuffer(12);
-            strip.start = Math.clamp(0, 3, start);
-            strip._length = Math.clamp(0, 4 - strip.start, length);
-            strip._mode = NeoPixelMode.RGB;
-            strip._matrixWidth = 0;
-            strip.setBrightness(255);
-            strip.setPin(pin);
-            strip.setAllRGB(rgb);
-            strip.show();
-        }
+    /** Set Robot:bit LEDs
+    * @param start offset in the Robot:bit LEDs to start the range
+    * @param length number of LEDs in the range. max: 4
+    * @param rgb RGB color of the LEDs
+    */
+    //% block="Set Robot:bit LEDs range from %start|with %length|LEDs show color %rgb=getNeoPixelKnownColor"
+    //% blockId="setLEDs"
+    //% group="Robot:bit"
+    //% weight=10
+    //% start.min=0 start.max=3
+    //% length.min=0 length.max=4
+    //% parts="tomatobit"
+    export function setLEDs(start: number, length: number, rgb: number): void {
+        let strip = new Strip();
+        let pin = DigitalPin.P16;
+        start = start >> 0;
+        length = length >> 0;
+        rgb = rgb >> 0;
+
+        strip.buf = pin.createBuffer(12);
+        strip.start = Math.clamp(0, 3, start);
+        strip._length = Math.clamp(0, 4 - strip.start, length);
+        strip._mode = NeoPixelMode.RGB;
+        strip._matrixWidth = 0;
+        strip.setBrightness(255);
+        strip.setPin(pin);
+        strip.setAllRGB(rgb);
+        strip.show();
     }
 }
