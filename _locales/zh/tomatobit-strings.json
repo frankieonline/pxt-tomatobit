@@ -1,3 +1,12 @@
 {
-    
+    "NeoPixelKnownColors.Red|block": "紅色",
+    "NeoPixelKnownColors.Orange|block": "橙色",
+    "NeoPixelKnownColors.Yellow|block": "黃色",
+    "NeoPixelKnownColors.Green|block": "綠色",
+    "NeoPixelKnownColors.Blue|block": "藍色",
+    "NeoPixelKnownColors.Indigo|block": "靛青色",
+    "NeoPixelKnownColors.Violet|block": "紫羅蘭色",
+    "NeoPixelKnownColors.Purple|block": "紫色",
+    "NeoPixelKnownColors.White|block": "白色",
+    "NeoPixelKnownColors.Black|block": "黑色"
 }

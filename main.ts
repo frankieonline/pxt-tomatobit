@@ -1,5 +1,3 @@
-//% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
-//% groups=['Robot:bit', 'Component & Sensor', 'mBridge']
 enum NeoPixelKnownColors {
     //% block=red
     Red = 0xFF0000,
@@ -23,11 +21,13 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
+//% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
+//% groups=['Robot:bit', 'Component & Sensor', 'mBridge']
 namespace tomatobit {
     /** Gets the RGB value of a NeoPixel Known Color
     * @param color NeoPixel Known Color
     */
-    //% block="Color: $knownColor"
+    //% block="%knownColor"
     //% blockId=neopixelColorList
     //% group='Robot:bit'
     export function neopixelColorList(knownColor: NeoPixelKnownColors) {
