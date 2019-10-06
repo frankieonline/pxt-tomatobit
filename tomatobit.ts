@@ -328,7 +328,7 @@ namespace tomatobit {
     }
 
     /** External button
-    * @param ioPin which IO Pin used; eg: P0, P1, P2, P8, P12, P13, P14, P15
+    * @param ioPin which IO Pin used
     */
     //% blockId="externalButton" block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
@@ -525,5 +525,26 @@ namespace tomatobit {
     //% weight=789
     export function lcdShiftRight(): void {
         cmd(0x1C);
+    }
+
+    //% blockId=robotbitUltrasonic block="Distance (cm) that ultrasonic Sensor %pin| detected"
+    //% group="Component & Sensor"
+    //% weight=799
+    export function robotbitUltrasonic(pin: DigitalPin): number {
+        pins.setPull(pin, PinPullMode.PullNone);
+
+        pins.digitalWritePin(pin, 0);
+        control.waitMicros(2);
+        pins.digitalWritePin(pin, 1);
+        control.waitMicros(10);
+        pins.digitalWritePin(pin, 0);
+
+        let d = pins.pulseIn(pin, PulseValue.High, 25000);
+        let ret = d;
+        if (ret == 0 && distanceBuf != 0) {
+            ret = distanceBuf;
+        }
+        distanceBuf = d;
+        return Math.floor(ret * 9 / 6 / 58);
     }
 }

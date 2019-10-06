@@ -39,5 +39,6 @@
     "tomatobit.lcdBacklightOn|block": "啟動 LCD 背光",
     "tomatobit.lcdBacklightOff|block": "關閉 LCD 背光",
     "tomatobit.lcdShiftLeft|block": "顯示內容向左移",
-    "tomatobit.lcdShiftRight|block": "顯示內容向右移"
+    "tomatobit.lcdShiftRight|block": "顯示內容向右移",
+    "tomatobit.robotbitUltrasonic|block": "超聲波感應器 %pin|偵測到的距離（cm）"
 }
