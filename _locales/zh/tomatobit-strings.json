@@ -8,5 +8,7 @@
     "NeoPixelKnownColors.Violet|block": "紫羅蘭色",
     "NeoPixelKnownColors.Purple|block": "紫色",
     "NeoPixelKnownColors.White|block": "白色",
-    "NeoPixelKnownColors.Black|block": "黑色"
+    "NeoPixelKnownColors.Black|block": "黑色",
+    "tomatobit.colors|block": "顏色：%knownColor|",
+    "tomatobit.rgbColor|block": "RGB（紅：%red|綠：%green|藍：%blue|）"
 }

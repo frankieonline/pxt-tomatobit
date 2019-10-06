@@ -24,13 +24,30 @@ enum NeoPixelKnownColors {
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups=['Robot:bit', 'Component & Sensor', 'mBridge']
 namespace tomatobit {
-    /** Gets the RGB value of a NeoPixel Known Color
-    * @param knownColor NeoPixel Known Color
+    /** Get the RGB value of a NeoPixel known color
+    * @param knownColor NeoPixel known color
     */
-    //% block="%knownColor"
-    //% blockId=neopixelColorList
+    //% block="color: %knownColor|"
+    //% blockId=colors
     //% group='Robot:bit'
-    export function neopixelColorList(knownColor: NeoPixelKnownColors) {
+    //% weight=0
+    export function colors(knownColor: NeoPixelKnownColors):number {
         return knownColor;
+    }
+
+    /** Input RGB value of a color
+    * @param red RGB value of red
+    * @param green RGB value of green
+    * @param blue RGB value of blue
+    */
+    //% block="RGB(red: %red|green: %green|blue: %blue|)"
+    //% blockId=rgbColor
+    //% group='Robot:bit'
+    //% weight=0
+    //% red.min=0 red.max=255
+    //% green.min=0 green.max=255
+    //% blue.min=0 blue.max=255
+    export function rgbColor(red: number, green: number, blue: number):number {
+        return ((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF);
     }
 }
