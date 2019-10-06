@@ -21,23 +21,6 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
-enum Digital_IOPins {
-    P0 = DigitalPin.P0,
-    P1 = DigitalPin.P1,
-    P2 = DigitalPin.P2,
-    P8 = DigitalPin.P8,
-    P12 = DigitalPin.P12,
-    P13 = DigitalPin.P13,
-    P14 = DigitalPin.P14,
-    P15 = DigitalPin.P15
-}
-
-enum Analog_IOPins {
-    P0 = AnalogPin.P0,
-    P1 = AnalogPin.P1,
-    P2 = AnalogPin.P2
-}
-
 enum LCD_AddressType {
     //% block="Auto Recognition (0)"
     auto = 0,
@@ -88,7 +71,7 @@ enum Slots {
 }
 
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
-//% groups=["Robot:bit", "Component & Sensor", "mBridge"]
+//% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD"]
 namespace tomatobit {
     const PortDigi = [
         DigitalPin.P0, DigitalPin.P8,
@@ -264,7 +247,6 @@ namespace tomatobit {
     //% parts="tomatobit"
     export function setBuzzer(frequency: number, duration: number): void {
         music.playTone(frequency, duration * 1000);
-        //pins.analogPitch(frequency, duration * 1000);
     }
 
     let initialized = false;
@@ -346,12 +328,12 @@ namespace tomatobit {
     }
 
     /** External button
-    * @param ioPin which IO Pin used
+    * @param ioPin which IO Pin used; eg: P0, P1, P2, P8, P12, P13, P14, P15
     */
     //% blockId="externalButton" block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
     //% weight=799
-    export function externalButton(ioPin: Digital_IOPins): boolean {
+    export function externalButton(ioPin: DigitalPins): boolean {
         return ((pins.digitalReadPin(ioPin) == 1) ? true : false);
     }
 
@@ -421,7 +403,7 @@ namespace tomatobit {
     * @param address is i2c address for LCD
     */
     //% blockId="lcdSetAddress" block="Initialize LCD, set I2C address as %addr"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=799
     export function lcdSetAddress(addr: LCD_AddressType): void {
         if (addr == 0) i2cAddr = AutoAddr();
@@ -446,7 +428,7 @@ namespace tomatobit {
      * @param y is LCD row position, eg: 0
      */
     //% blockId="lcdShowNumber" block="Show number %n|at position x %x|y %y"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=799
     //% x.min=0 x.max=15
     //% y.min=0 y.max=1
@@ -461,11 +443,10 @@ namespace tomatobit {
      * @param y is LCD row position, [0 - 1], eg: 0
      */
     //% blockId="ledShowString" block="Show string %s|at position x %x|y %y"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=799
     //% x.min=0 x.max=15
     //% y.min=0 y.max=1
-    //% parts=LCD1602_I2C trackArgs=0
     export function ledShowString(s: string, x: number, y: number): void {
         let a: number
 
@@ -484,7 +465,7 @@ namespace tomatobit {
     /** Turn on LCD Display
      */
     //% blockId="lcdOn" block="Turn on LCD"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdOn(): void {
         cmd(0x0C);
@@ -493,7 +474,7 @@ namespace tomatobit {
     /** Turn off LCD Display
      */
     //% blockId="lcdOff" block="Turn off LCD"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdOff(): void {
         cmd(0x08);
@@ -502,7 +483,7 @@ namespace tomatobit {
     /** Clear LCD Display
      */
     //% blockId="lcdClear" block="Clear LCD display"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdClear(): void {
         cmd(0x01);
@@ -511,7 +492,7 @@ namespace tomatobit {
     /** Turn on LCD Backlight
      */
     //% blockId="lcdBacklightOn" block="Turn on LCD Backlight"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdBacklightOn(): void {
         BK = 8;
@@ -521,7 +502,7 @@ namespace tomatobit {
     /** Turn off LCD Backlight
      */
     //% blockId="lcdBacklightOff" block="Turn off LCD Backlight"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdBacklightOff(): void {
         BK = 0;
@@ -531,7 +512,7 @@ namespace tomatobit {
     /** Screen shift left
      */
     //% blockId="lcdShiftLeft" block="Screen shift left"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdShiftLeft(): void {
         cmd(0x18);
@@ -540,7 +521,7 @@ namespace tomatobit {
     /** Screen shift right
      */
     //% blockId="lcdShiftRight" block="Screen shift right"
-    //% group="Component & Sensor"
+    //% group="LCD"
     //% weight=789
     export function lcdShiftRight(): void {
         cmd(0x1C);
