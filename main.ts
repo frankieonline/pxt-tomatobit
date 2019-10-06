@@ -25,12 +25,12 @@ enum NeoPixelKnownColors {
 //% groups=['Robot:bit', 'Component & Sensor', 'mBridge']
 namespace tomatobit {
     /** Gets the RGB value of a NeoPixel Known Color
-    * @param color NeoPixel Known Color
+    * @param knownColor NeoPixel Known Color
     */
-    //% block="%knownColor"
+    //% block="$knownColor"
     //% blockId=neopixelColorList
     //% group='Robot:bit'
-    export function neopixelColorList(knownColor: NeoPixelKnownColors) {
+    export function neopixelColorList(cc: NeoPixelKnownColors) {
         return knownColor;
     }
 }
