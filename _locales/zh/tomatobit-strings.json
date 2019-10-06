@@ -1,4 +1,7 @@
 {
+    "NeoPixelMode.RGB|block": "RGB（GRB順序）",
+    "NeoPixelMode.RGBW|block": "RGB+W",
+    "NeoPixelMode.RGB_RGB|block": "RGB（RGB順序）",
     "NeoPixelKnownColors.Red|block": "紅色",
     "NeoPixelKnownColors.Orange|block": "橙色",
     "NeoPixelKnownColors.Yellow|block": "黃色",
@@ -10,5 +13,6 @@
     "NeoPixelKnownColors.White|block": "白色",
     "NeoPixelKnownColors.Black|block": "黑色",
     "tomatobit.getNeoPixelKnownColor|block": "顏色：%knownColor|",
-    "tomatobit.getRGBColor|block": "RGB（紅：%red|綠：%green|藍：%blue|）"
+    "tomatobit.getRGBColor|block": "RGB（紅：%red|綠：%green|藍：%blue|）",
+    "tomatobit.setLEDs|block": "設置 Robot:bit LEDs 從像素 %start|長度 %length|LEDs 顯示顏色 %rgb=getNeoPixelKnownColor"
 }
