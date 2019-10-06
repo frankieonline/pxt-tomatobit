@@ -113,6 +113,7 @@ namespace tomatobit {
         //% blockId="getNeoPixelKnownColor"
         //% group="Robot:bit"
         //% weight=0
+        //% parts="tomatobit"
         export function getNeoPixelKnownColor(knownColor: NeoPixelKnownColors):number {
             return knownColor;
         }
@@ -129,6 +130,7 @@ namespace tomatobit {
         //% red.min=0 red.max=255
         //% green.min=0 green.max=255
         //% blue.min=0 blue.max=255
+        //% parts="tomatobit"
         export function getRGBColor(red: number, green: number, blue: number):number {
             return packRGB(red, green, blue);
         }
@@ -141,9 +143,10 @@ namespace tomatobit {
         //% block="Set Robot:bit LEDs range from %start|with %length|LEDs show color %rgb=getNeoPixelKnownColor"
         //% blockId="setLEDs"
         //% group="Robot:bit"
-        //% weight=0
+        //% weight=10
         //% start.min=0 start.max=3
         //% length.min=0 length.max=4
+        //% parts="tomatobit"
         export function setLEDs(start: number, length: number, rgb: number): void {
             let strip = new Strip();
             let pin = DigitalPin.P16;
