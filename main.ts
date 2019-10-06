@@ -27,7 +27,11 @@ namespace tomatobit {
     /** Gets the RGB value of a NeoPixel Known Color
     * @param color NeoPixel Known Color
     */
-    //% blockId=neopixelColorList block="%knownColor" weight=0 group='Robot:bit'
+    //% blockId=neopixelColorList
+    //% block="%knownColor"
+    //% weight=0
+    //% group='Robot:bit'
+    //% expandableArgumentMode="toggle"
     export function neopixelColorList(knownColor: NeoPixelKnownColors): number {
         return knownColor;
     }
