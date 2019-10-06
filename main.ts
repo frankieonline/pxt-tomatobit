@@ -109,7 +109,7 @@ namespace tomatobit {
         /** Get the RGB value of a NeoPixel known color
         * @param knownColor NeoPixel known color
         */
-        //% block="color: $knownColor"
+        //% block="color: %knownColor"
         //% blockId="getNeoPixelKnownColor"
         //% group="Robot:bit"
         //% weight=0
