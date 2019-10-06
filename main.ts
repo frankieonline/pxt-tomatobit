@@ -337,17 +337,12 @@ namespace tomatobit {
         setPwm(index + 7, 0, value);
     }
 
-    //% blockId="getDigitalIOPins"
-    function getDigitalIOPins(ioPin: DigitalIOPins):DigitalPin {
-        return ioPin;
-    }
-
     /** External button
     * @param ioPins which IO Pin used
     */
-    //% blockId=externalButton block="External button|%ioPin=getDigitalIOPins| is pressed?"
+    //% blockId=externalButton block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
-    export function externalButton(ioPin: DigitalIOPins): boolean {
+    export function externalButton(ioPin: DigitalPin): boolean {
         return pins.digitalReadPin(ioPin);
     }
 }
