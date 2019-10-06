@@ -48,7 +48,7 @@ namespace tomatobit {
         _matrixChain: number; // the connection type of matrix chain
         _matrixRotation: number; // the rotation type of matrix
 
-        private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
+        setBufferRGB(offset: number, red: number, green: number, blue: number): void {
             if (this._mode === NeoPixelMode.RGB_RGB) {
                 this.buf[offset + 0] = red;
                 this.buf[offset + 1] = green;
@@ -59,7 +59,7 @@ namespace tomatobit {
             this.buf[offset + 2] = blue;
         }
 
-        private setAllRGB(rgb: number) {
+        setAllRGB(rgb: number) {
             let red = unpackR(rgb);
             let green = unpackG(rgb);
             let blue = unpackB(rgb);
@@ -156,7 +156,7 @@ namespace tomatobit {
         length = length >> 0;
         rgb = rgb >> 0;
 
-        strip.buf = pin.createBuffer(12);
+        strip.buf = pins.createBuffer(12);
         strip.start = Math.clamp(0, 3, start);
         strip._length = Math.clamp(0, 4 - strip.start, length);
         strip._mode = NeoPixelMode.RGB;
