@@ -30,9 +30,73 @@ enum NeoPixelMode {
     RGB_RGB = 2
 }
 
+enum Servos {
+    S1 = 0x01,
+    S2 = 0x02,
+    S3 = 0x03,
+    S4 = 0x04,
+    S5 = 0x05,
+    S6 = 0x06,
+    S7 = 0x07,
+    S8 = 0x08
+}
+
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups=["Robot:bit", "Component & Sensor", "mBridge"]
 namespace tomatobit {
+    export enum Ports {
+        PORT1 = 0,
+        PORT2 = 1,
+        PORT3 = 2,
+        PORT4 = 3
+    }
+
+    export enum PortsA {
+        PORT1 = 0,
+        PORT2 = 1,
+        PORT3 = 2
+    }
+
+    export enum DigitalIOPins {
+        P0 = DigitalPin.P0,
+        P1 = DigitalPin.P1,
+        P2 = DigitalPin.P2,
+        P8 = DigitalPin.P8,
+        P12 = DigitalPin.P12,
+        P13 = DigitalPin.P13,
+        P14 = DigitalPin.P14,
+        P15 = DigitalPin.P15
+    }
+
+    export enum AnalogIOPins {
+        P0 = AnalogPin.P0,
+        P1 = AnalogPin.P1,
+        P2 = AnalogPin.P2
+    }
+
+    const PortDigi = [
+        [DigitalPin.P0, DigitalPin.P8],
+        [DigitalPin.P1, DigitalPin.P12],
+        [DigitalPin.P2, DigitalPin.P13],
+        [DigitalPin.P14, DigitalPin.P15]
+    ]
+
+    const PortAnalog = [
+        AnalogPin.P0,
+        AnalogPin.P1,
+        AnalogPin.P2,
+        null
+    ]
+
+    export enum Slots {
+        A = 0,
+        B = 1
+    }
+
+    const PCA9685_ADDRESS = 0x40;
+    const MODE1 = 0x00;
+    const MODE2 = 0x01;
+
     //% shim=sendBufferAsm
     function sendBuffer(buf: Buffer, pin: DigitalPin) {
     }
@@ -177,6 +241,94 @@ namespace tomatobit {
     //% weight=899
     //% parts="tomatobit"
     export function setBuzzer(frequency: number, duration: number): void {
-        pins.analogPitch(frequency, duration * 1000);
+        music.playTone(frequency, duration * 1000);
+        //pins.analogPitch(frequency, duration * 1000);
+    }
+
+    let initialized = false;
+
+    function i2cwrite(addr: number, reg: number, value: number) {
+        let buf = pins.createBuffer(2);
+        buf[0] = reg;
+        buf[1] = value;
+        pins.i2cWriteBuffer(addr, buf);
+    }
+
+    function i2ccmd(addr: number, value: number) {
+        let buf = pins.createBuffer(1);
+        buf[0] = value;
+        pins.i2cWriteBuffer(addr, buf);
+    }
+
+    function i2cread(addr: number, reg: number) {
+        pins.i2cWriteNumber(addr, reg, NumberFormat.UInt8BE);
+        let val = pins.i2cReadNumber(addr, NumberFormat.UInt8BE);
+        return val;
+    }
+
+    function initPCA9685(): void {
+        i2cwrite(PCA9685_ADDRESS, MODE1, 0x00);
+        setFreq(50);
+        for (let idx = 0; idx < 16; idx++) {
+            setPwm(idx, 0, 0);
+        }
+        initialized = true;
+    }
+
+    function setFreq(freq: number): void {
+        let prescaleval = 25000000;
+        prescaleval /= 4096;
+        prescaleval /= freq;
+        prescaleval -= 1;
+        let prescale = prescaleval;
+        let oldmode = i2cread(PCA9685_ADDRESS, MODE1);
+        let newmode = (oldmode & 0x7F) | 0x10;
+        i2cwrite(PCA9685_ADDRESS, MODE1, newmode);
+        i2cwrite(PCA9685_ADDRESS, PRESCALE, prescale);
+        i2cwrite(PCA9685_ADDRESS, MODE1, oldmode);
+        control.waitMicros(5000);
+        i2cwrite(PCA9685_ADDRESS, MODE1, oldmode | 0xa1);
+    }
+
+    function setPwm(channel: number, on: number, off: number): void {
+        if (channel < 0 || channel > 15) {
+            return;
+        }
+
+        let buf = pins.createBuffer(5);
+        buf[0] = LED0_ON_L + 4 * channel;
+        buf[1] = on & 0xff;
+        buf[2] = (on >> 8) & 0xff;
+        buf[3] = off & 0xff;
+        buf[4] = (off >> 8) & 0xff;
+        pins.i2cWriteBuffer(PCA9685_ADDRESS, buf);
+    }
+
+    /** Servo execute
+    * @param index Servo Channel; eg: S1
+    * @param degree [0-180] degree of servo; eg: 0, 90, 180
+    */
+    //% blockId=robotbitServo block="Servo %index|degree %degree"
+    //% group="Robot:bit"
+    //% weight=899
+    //% parts="tomatobit"
+    //% degree.min=0 degree.max=180
+    export function robotbitServo(index: Servos, degree: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        // 50hz: 20,000 us
+        let v_us = (degree * 1800 / 180 + 600); // 0.6 ~ 2.4
+        let value = v_us * 4096 / 20000;
+        setPwm(index + 7, 0, value);
+    }
+
+    /** External button
+    * @param ioPins which IO Pin used
+    */
+    //% blockId=externalButton block="External button|%ioPins| is pressed?"
+    //% group="Component & Sensor"
+    export function externalButton(ioPins: DigitalIOPins): boolean {
+        return pins.digitalReadPin(ioPins);
     }
 }
