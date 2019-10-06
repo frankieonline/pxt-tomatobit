@@ -21,10 +21,14 @@
     "PortsA.PORT1|block": "連接埠1",
     "PortsA.PORT2|block": "連接埠2",
     "PortsA.PORT3|block": "連接埠3",
+    "LCD_AddressType.auto|block": "自動識別（0）",
+    "LCD_AddressType.PCF8574|block": "PCF8574（39）",
+    "LCD_AddressType.PCF8574A|block": "PCF8574A（63）",
     "tomatobit.getNeoPixelKnownColor|block": "顏色：%knownColor|",
     "tomatobit.getRGBColor|block": "RGB（紅：%red|綠：%green|藍：%blue|）",
     "tomatobit.setLEDs|block": "Robot:bit LEDs 從像素 %start|長度 %length|LEDs 顯示顏色 %rgb=getNeoPixelKnownColor",
     "tomatobit.setBuzzer|block": "Robot:bit 蜂鳴器播放頻率 %frequency|(Hz) %duration|秒",
     "tomatobit.robotbitServo|block": "舵機 %index|角度 %degree",
-    "tomatobit.externalButton|block": "外置按鈕 %ioPin| 被按下？"
+    "tomatobit.externalButton|block": "外置按鈕 %ioPin| 被按下？",
+    "tomatobit.lcdSetAddress|block": "初始化 LCD，設置 I2C 地址為 %addr"
 }
