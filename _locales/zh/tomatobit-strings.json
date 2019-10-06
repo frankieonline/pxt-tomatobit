@@ -26,5 +26,5 @@
     "tomatobit.setLEDs|block": "Robot:bit LEDs 從像素 %start|長度 %length|LEDs 顯示顏色 %rgb=getNeoPixelKnownColor",
     "tomatobit.setBuzzer|block": "Robot:bit 蜂鳴器播放頻率 %frequency|(Hz) %duration|秒",
     "tomatobit.robotbitServo|block": "舵機 %index|角度 %degree",
-    "tomatobit.externalButton|block": "外置按鈕 %ioPins| 被按下？"
+    "tomatobit.externalButton|block": "外置按鈕 %ioPin| 被按下？"
 }

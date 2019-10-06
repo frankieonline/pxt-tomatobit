@@ -65,17 +65,16 @@ enum Slots {
 //% groups=["Robot:bit", "Component & Sensor", "mBridge"]
 namespace tomatobit {
     const PortDigi = [
-        [DigitalPin.P0, DigitalPin.P8],
-        [DigitalPin.P1, DigitalPin.P12],
-        [DigitalPin.P2, DigitalPin.P13],
-        [DigitalPin.P14, DigitalPin.P15]
+        DigitalPin.P0, DigitalPin.P8,
+        DigitalPin.P1, DigitalPin.P12,
+        DigitalPin.P2, DigitalPin.P13,
+        DigitalPin.P14, DigitalPin.P15
     ];
 
     const PortAnalog = [
         AnalogPin.P0,
         AnalogPin.P1,
-        AnalogPin.P2,
-        null
+        AnalogPin.P2
     ];
 
     const PCA9685_ADDRESS = 0x40;
@@ -323,7 +322,7 @@ namespace tomatobit {
     /** External button
     * @param ioPin which IO Pin used
     */
-    //% blockId="externalButton" block="External button|%ioPin| is pressed?"
+    //% blockId="externalButton" block="External button|%ioPin=PortDigi| is pressed?"
     //% group="Component & Sensor"
     //% weight=799
     export function externalButton(ioPin: DigitalPin): boolean {
