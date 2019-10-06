@@ -14,5 +14,6 @@
     "NeoPixelKnownColors.Black|block": "黑色",
     "tomatobit.getNeoPixelKnownColor|block": "顏色：%knownColor|",
     "tomatobit.getRGBColor|block": "RGB（紅：%red|綠：%green|藍：%blue|）",
-    "tomatobit.setLEDs|block": "設置 Robot:bit LEDs 從像素 %start|長度 %length|LEDs 顯示顏色 %rgb=getNeoPixelKnownColor"
+    "tomatobit.setLEDs|block": "設置 Robot:bit LEDs 從像素 %start|長度 %length|LEDs 顯示顏色 %rgb=getNeoPixelKnownColor",
+    "tomatobit.setBuzzer|block": "設置 Robot:bit 蜂鳴器播放頻率 %frequency|(Hz) %duration|秒"
 }

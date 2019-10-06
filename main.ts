@@ -166,4 +166,17 @@ namespace tomatobit {
         strip.setAllRGB(rgb);
         strip.show();
     }
+
+    /** Play sound on buzzer
+    * @param frequency frequency(Hz) that buzzer play
+    * @param duration how long should the sound play
+    */
+    //% block="Set Robot:bit buzzer play %frequency|(Hz) for %duration|seconds"
+    //% blockId="setBuzzer"
+    //% group="Robot:bit"
+    //% weight=10
+    //% parts="tomatobit"
+    export function setBuzzer(frequency: number, duration: number): void {
+        playTone(frequency, duration * 1000);
+    }
 }
