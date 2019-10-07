@@ -32,5 +32,6 @@
     "tomatobit.lcdBacklightOff|block": "關閉 LCD 背光",
     "tomatobit.lcdShiftLeft|block": "LCD 顯示內容向左移",
     "tomatobit.lcdShiftRight|block": "LCD 顯示內容向右移",
-    "tomatobit.robotbitUltrasonic|block": "超聲波感應器 Trig %trigPin|Echo %echoPin|偵測到的距離（cm）"
+    "tomatobit.robotbitUltrasonic|block": "超聲波感應器 Trig %trigPin|Echo %echoPin|偵測到的距離（cm）",
+    "tomatobit.robotbitPIR|block": "人體紅外線感應器 %pin| 偵測到移動？"
 }

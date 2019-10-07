@@ -574,6 +574,16 @@ namespace tomatobit {
         // read pulse
         const d = pins.pulseIn(echoPin, PulseValue.High, maxCmDistance * 58);
 
-        return Math.idiv(d, 300);
+        return d;
+    }
+
+    /** Check PIR sense human movement
+    * @param pin pin used
+    */
+    //% blockId="robotbitPIR" block="PIR %pin| detected human?"
+    //% group="Component & Sensor"
+    //% weight=2
+    export function robotbitPIR(pin: DigitalPin): boolean {
+        return true;
     }
 }
