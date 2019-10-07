@@ -59,6 +59,24 @@ enum Servos {
     S8 = 0x08
 }
 
+enum Ports {
+    PORT1 = 0,
+    PORT2 = 1,
+    PORT3 = 2,
+    PORT4 = 3
+}
+
+enum PortsA {
+    PORT1 = 0,
+    PORT2 = 1,
+    PORT3 = 2
+}
+
+enum Slots {
+    Left = 0,
+    Right = 1
+}
+
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD", "NeoPixel"]
 namespace tomatobit {
@@ -91,7 +109,19 @@ namespace tomatobit {
     const ALL_LED_OFF_L = 0xFC;
     const ALL_LED_OFF_H = 0xFD;
 
-    let distanceBuf = 0;
+    const PortDigi = [
+        [DigitalPin.P0, DigitalPin.P8],
+        [DigitalPin.P1, DigitalPin.P12],
+        [DigitalPin.P2, DigitalPin.P13],
+        [DigitalPin.P14, DigitalPin.P15]
+    ]
+
+    const PortAnalog = [
+        AnalogPin.P0,
+        AnalogPin.P1,
+        AnalogPin.P2,
+        null
+    ]
 
     //% shim=sendBufferAsm
     function sendBuffer(buf: Buffer, pin: DigitalPin) {
@@ -208,7 +238,7 @@ namespace tomatobit {
     * @param green RGB value of green
     * @param blue RGB value of blue
     */
-    //% block="RGB(red: %red|green: %green|blue: %blue|)"
+    //% block="RGB(red: %red| green: %green| blue: %blue| )"
     //% blockId="getRGBColor"
     //% group="NeoPixel"
     //% weight=1
@@ -225,7 +255,7 @@ namespace tomatobit {
     * @param length number of LEDs in the range. max: 4
     * @param rgb RGB color of the LEDs
     */
-    //% block="Set Robot:bit LEDs range from %start|with %length|LEDs show color %rgb=getNeoPixelKnownColor"
+    //% block="Set Robot:bit LEDs range from %start| with %length| LEDs show color %rgb=getNeoPixelKnownColor"
     //% blockId="setLEDs"
     //% group="NeoPixel"
     //% weight=2
@@ -276,7 +306,7 @@ namespace tomatobit {
     * @param frequency frequency(Hz) that buzzer play
     * @param duration how long should the sound play
     */
-    //% block="Set Robot:bit buzzer play %frequency|(Hz) for %duration|seconds"
+    //% block="Set Robot:bit buzzer play %frequency| (Hz) for %duration| seconds"
     //% blockId="setBuzzer"
     //% group="Robot:bit"
     //% weight=2
@@ -348,7 +378,7 @@ namespace tomatobit {
     * @param index Servo Channel; eg: S1
     * @param degree [0-180] degree of servo; eg: 0, 90, 180
     */
-    //% blockId="robotbitServo" block="Servo %index|degree %degree"
+    //% blockId="robotbitServo" block="Servo %index| degree %degree"
     //% group="Robot:bit"
     //% weight=2
     //% parts="tomatobit"
@@ -366,7 +396,7 @@ namespace tomatobit {
     /** External button
     * @param ioPin which IO Pin used
     */
-    //% blockId="externalButton" block="External button|%ioPin| is pressed?"
+    //% blockId="externalButton" block="External button %ioPin| is pressed?"
     //% group="Component & Sensor"
     //% weight=2
     export function externalButton(ioPin: DigitalPin): boolean {
@@ -463,7 +493,7 @@ namespace tomatobit {
     * @param x is LCD column position, eg: 0
     * @param y is LCD row position, eg: 0
     */
-    //% blockId="lcdShowNumber" block="Show number %n|at position x %x|y %y"
+    //% blockId="lcdShowNumber" block="Show number %n| at position x %x| y %y"
     //% group="LCD"
     //% weight=4
     //% x.min=0 x.max=15
@@ -478,7 +508,7 @@ namespace tomatobit {
     * @param x is LCD column position, [0 - 15], eg: 0
     * @param y is LCD row position, [0 - 1], eg: 0
     */
-    //% blockId="lcdShowString" block="Show string %s|at position x %x|y %y"
+    //% blockId="lcdShowString" block="Show string %s| at position x %x| y %y"
     //% group="LCD"
     //% weight=4
     //% x.min=0 x.max=15
@@ -575,7 +605,7 @@ namespace tomatobit {
     * @param echoPin echo pin
     * @param maxCmDistance maximum distance in centimeters (default is 400)
     */
-    //% blockId="robotbitUltrasonic" block="Distance (cm) that ultrasonic Sensor Trig %trigPin|Echo %echoPin| detected"
+    //% blockId="robotbitUltrasonic" block="Distance (cm) that ultrasonic Sensor Trig %trigPin| Echo %echoPin| detected"
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, maxCmDistance = 500): number {
@@ -596,7 +626,7 @@ namespace tomatobit {
     /** Check if PIR detected human movement
     * @param pin pin used
     */
-    //% blockId="robotbitPIR" block="PIR %pin| detected human?"
+    //% blockId="robotbitPIR" block="PIR %pin| detected movement?"
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitPIR(pin: DigitalPin): boolean {
@@ -606,9 +636,9 @@ namespace tomatobit {
     /** When PIR detected human movement
     * @param pin pin used
     */
-    //% blockId="robotbitWhenPIR" block="When PIR %pin| detected human"
+    //% blockId="robotbitWhenPIR" block="When PIR %pin| detected movement"
     //% group="Component & Sensor"
-    //% weight=2
+    //% weight=1
     //% advanced=true
     export function robotbitWhenPIR(pin: DigitalPin, handler: () => void): void {
         pins.onPulsed(pin, PulseValue.High, handler);
@@ -726,15 +756,169 @@ namespace tomatobit {
             _temperatureF = _temperatureC * 1.8 + 32;
             _humidity = resultArray[0] + resultArray[1] / 100;
             if (type == DHT11Type.TemperatureC) {
-                return _temperatureC;
+                return Math.floor(_temperatureC);
             }
             else if (type == DHT11Type.TemperatureF) {
-                return _temperatureF;
+                return Math.floor(_temperatureF);
             }
             else if (type == DHT11Type.Humidity) {
-                return _humidity;
+                return Math.floor(_humidity);
             }
         }
         return -999;
+    }
+
+    let distanceBuf = 0;
+    let dht11Temp = -1;
+    let dht11Humi = -1;
+
+    //% shim=powerbrick::dht11Update
+    function dht11Update(pin: number): number {
+        return 999;
+    }
+
+    //% blockId="mbridgeUltrasonic" block="Me Ultrasonic sensor %port|"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeUltrasonic(port: Ports): number {
+        // send pulse
+        let pin = PortDigi[port][0];
+        pins.setPull(pin, PinPullMode.PullNone);
+        pins.digitalWritePin(pin, 0);
+        control.waitMicros(2);
+        pins.digitalWritePin(pin, 1);
+        control.waitMicros(10);
+        pins.digitalWritePin(pin, 0);
+
+        // read pulse
+        let d = pins.pulseIn(pin, PulseValue.High, 25000);
+        let ret = d;
+        // filter timeout spikes
+        if (ret == 0 && distanceBuf != 0) {
+            ret = distanceBuf;
+        }
+        distanceBuf = d;
+        return Math.floor(ret * 10 / 6 / 58);
+    }
+
+    //% blockId="mbridgePIR" block="Me PIR %port| detected movement?"
+    //% weight=2
+    //% group="mBridge"
+    export function mbridgePIR(port: Ports): boolean {
+        let pin = PortDigi[port][0];
+        pins.setPull(pin, PinPullMode.PullUp);
+        return pins.digitalReadPin(pin) == 1;
+    }
+
+    //% blockId=mbridgeOnPIREvent block="When PIR %port| detected movement"
+    //% weight=1
+    //% group="mBridge"
+    //% advanced=true
+    export function mbridgeOnPIREvent(port: Ports, handler: () => void): void {
+        let pin = PortDigi[port][0];
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.onPulsed(pin, PulseValue.High, handler);
+    }
+
+    //% blockId=mbridgeTouch block="Me Touch sensor %port| is touched?"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeTouch(port: Ports): boolean {
+        let pin = PortDigi[port][0];
+        pins.setPull(pin, PinPullMode.PullUp);
+        return pins.digitalReadPin(pin) == 0;
+    }
+
+    //% blockId=mbridgeTouchEvent block="When Me Touch sensor %port| is touched"
+    //% group="mBridge"
+    //% weight=1
+    //% advanced=true
+    export function mbridgeTouchEvent(port: Ports, handler: () => void): void {
+        let pin = PortDigi[port][0];
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.onPulsed(pin, PulseValue.Low, handler);
+    }
+
+    //% blockId="mbridgeLineFollower" block="Me Line Follower %port| slot %slot| is black?"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeLineFollower(port: Ports, slot: Slots): boolean {
+        let pin = PortDigi[port][slot];
+        pins.setPull(pin, PinPullMode.PullUp);
+        return pins.digitalReadPin(pin) == 1;
+    }
+
+    //% blockId=mbridgeLineFollowerEvent block="When Me Line Follower %port| slot %slot| is black"
+    //% group="mBridge"
+    //% weight=1
+    //% advanced=true
+    export function mbridgeLineFollowerEvent(port: Ports, slot: Slots, handler: () => void): void {
+        let pin = PortDigi[port][slot];
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.onPulsed(pin, PulseValue.High, handler);
+    }
+
+    //% blockId="mbridgeLineFollowerStatus" block="Me Line Follower %port|"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeLineFollowerStatus(port: Ports): number {
+        let pinL = PortDigi[port][0];
+        let pinR = PortDigi[port][1];
+        pins.setPull(pinL, PinPullMode.PullUp);
+        let pinL_status = (pins.digitalReadPin(pinL) == 1);
+        pins.setPull(pinR, PinPullMode.PullUp);
+        let pinR_status = (pins.digitalReadPin(pinR) == 1);
+        if (pinL_status && pinR_status) return 0;
+        else if (pinL_status && !pinR_status) return 1;
+        else if (!pinL_status && pinR_status) return 2;
+        else if (!pinL_status && !pinR_status) return 3;
+        return -1;
+    }
+
+    //% blockId="mbridgeDHT11" block="Me Temperature and Humidity Sensor %port| type %readtype|"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeDHT11(port: Ports, readtype: DHT11Type): number {
+        let pin = PortDigi[port][0];
+
+        // todo: get pinname in ts
+        let value = (dht11Update(pin - 7) >> 0);
+
+        if (value != 0) {
+            dht11Temp = (value & 0x0000ff00) >> 8;
+            dht11Humi = value >> 24;
+        }
+        if (readtype == DHT11Type.TemperatureC) {
+            return dht11Temp;
+        } else if (readtype == DHT11Type.TemperatureF) {
+            return Math.floor(dht11Temp * 9 / 5) + 32;
+        } else {
+            return dht11Humi;
+        }
+    }
+
+    //% blockId="mbridgeSound" block="Me Sound sensor %port|"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeSound(port: PortsA): number {
+        let pin = PortAnalog[port];
+        return pins.analogReadPin(pin);
+    }
+
+    //% blockId="mbridgeLight" block="Me Light sensor %port|"
+    //% group="mBridge"
+    //% weight=2
+    export function mbridgeLight(port: PortsA): number {
+        let pin = PortAnalog[port];
+        return pins.analogReadPin(pin);
+    }
+
+    //% blockId="mbridgePotentiometer" block="Me Potentiometer %port|"
+    //% group="mBridge"
+    //% weight=1
+    //% advanced=true
+    export function mbridgePotentiometer(port: PortsA): number {
+        let pin = PortAnalog[port];
+        return pins.analogReadPin(pin);
     }
 }

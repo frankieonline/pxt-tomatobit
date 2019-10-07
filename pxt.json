@@ -9,6 +9,7 @@
     "files": [
         "README.md",
         "tomatobit.ts",
+        "tomatobit.cpp",
         "sendBuffer.asm",
         "_locales/zh/tomatobit-strings.json"
     ],

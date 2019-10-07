@@ -9,6 +9,14 @@
 * 超聲波感應器
 * RGB LEDs @ Robot:bit
 * 蜂鳴器 @ Robot:bit
+* Makeblock Me 超聲波感應器 配搭 mBridge 使用
+* Makeblock Me 人體紅外線感應器 配搭 mBridge 使用
+* Makeblock Me 觸摸感應器 配搭 mBridge 使用
+* Makeblock Me 循線感應器 配搭 mBridge 使用
+* Makeblock Me 溫濕度感應器 配搭 mBridge 使用
+* Makeblock Me 聲音感應器 配搭 mBridge 使用
+* Makeblock Me 光線感應器 配搭 mBridge 使用
+* Makeblock Me 電位器 配搭 mBridge 使用
 
 一個擴展，包含你所需的。
 
@@ -21,6 +29,14 @@ Extension which is suitable for Robot:bit and mBridge from KittenBot, and includ
 * Ultrasonic sensor
 * RGB LEDs @ Robot:bit
 * Buzzer @ Robot:bit
+* Makeblock Me Ultrasonic Sensor with mBridge
+* Makeblock Me PIR with mBridge
+* Makeblock Me Touch Sensor with mBridge
+* Makeblock Me Line Follower with mBridge
+* Makeblock Me Temperature & Humdity Sensor with mBridge
+* Makeblock Me Sound Sensor with mBridge
+* Makeblock Me Light Sensor with mBridge
+* Makeblock Me Potentiometer with mBridge
 
 All you need is inclued in this extension.
 
