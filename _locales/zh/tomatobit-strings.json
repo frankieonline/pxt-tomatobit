@@ -58,10 +58,10 @@
     "tomatobit.mbridgeTouch|block": "Me 觸摸感應器 %port| 被觸摸？",
     "tomatobit.mbridgeTouchEvent|block": "當 Me 觸摸感應器 %port| 被觸摸",
     "tomatobit.mbridgeLineFollower|block": "Me 循線感應器 %port| 檢測到 %slot| 是黑色？",
-    "tomatobit.mbridgeLineFollower|block": "當 Me 循線感應器 %port| 檢測到 %slot| 是黑色",
+    "tomatobit.mbridgeLineFollowerEvent|block": "當 Me 循線感應器 %port| 檢測到 %slot| 是黑色",
     "tomatobit.mbridgeLineFollowerStatus|block": "Me 循線感應器 %port| 狀態",
     "tomatobit.mbridgeDHT11|block": "Me 溫濕度感應器 %port| %readtype|",
     "tomatobit.mbridgeSound|block": "Me 聲音感應器 %port|",
     "tomatobit.mbridgeLight|block": "Me 光線感應器 %port|",
-    "tomatobit.mbridgePotentiometer|block": "Me c %port|"
+    "tomatobit.mbridgePotentiometer|block": "Me 電位器 %port|"
 }
