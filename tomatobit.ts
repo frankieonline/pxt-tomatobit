@@ -137,7 +137,7 @@ namespace tomatobit {
         neopixelShowColor(rgb: number) {
             rgb = rgb >> 0;
             this.setAllRGB(rgb);
-            this.show();
+            this.neopixelShow();
         }
 
         /** Send all the changes to the strip. */
