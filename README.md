@@ -12,7 +12,7 @@
 
 一個擴展，包含你所需的。
 
-Extension which is suitable for Robot:bit and mBridge from KittenBot, including some common components & sensors:
+Extension which is suitable for Robot:bit and mBridge from KittenBot, and including some common components & sensors:
 * LCD Screen
 * DHT11 Temperature & Humdity Sensor
 * Soil Moisture Sensor
@@ -22,7 +22,7 @@ Extension which is suitable for Robot:bit and mBridge from KittenBot, including 
 * RGB LEDs @ Robot:bit
 * Buzzer @ Robot:bit
 
-All you need is inclued in this extension. 
+All you need is inclued in this extension.
 
 ![](icon.png)
 
