@@ -574,7 +574,7 @@ namespace tomatobit {
         // read pulse
         const d = pins.pulseIn(echoPin, PulseValue.High, maxCmDistance * 58);
 
-        return d;
+        return (d / 350);
     }
 
     /** Check if PIR detected human movement
