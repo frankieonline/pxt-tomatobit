@@ -735,8 +735,6 @@ namespace tomatobit {
                 return _humidity;
             }
         }
-        else {
-            return -999;
-        }
+        return -999;
     }
 }
