@@ -282,11 +282,14 @@ namespace tomatobit {
         let pin = DigitalPin.P16;
 
         strip.buf = pins.createBuffer(12);
-        strip.start = 0;
-        strip._length = 4;
+        strip.start = Math.clamp(0, 3, 0);
+        strip._length = Math.clamp(0, 4 - strip.start, 4);
         strip._mode = NeoPixelMode.RGB;
         strip._matrixWidth = 0;
-        strip.neopixelClear();
+        strip.setBrightness(255);
+        strip.setPin(pin);
+        strip.setAllRGB(0x000000);
+        strip.neopixelShow();
     }
 
     /** Play sound on buzzer
