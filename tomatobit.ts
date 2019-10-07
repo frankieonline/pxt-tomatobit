@@ -605,6 +605,16 @@ namespace tomatobit {
         pins.onPulsed(pin, PulseValue.High, handler);
     }
 
+    /** Get water sensor detected value
+    * @param pin pin used
+    */
+    //% blockId="robotbitWaterSensorValue" block="water sensor %pin|"
+    //% group="Component & Sensor"
+    //% weight=1
+    export function robotbitWaterSensorValue(pin: AnalogPin): number {
+        return pins.analogReadPin(pin);
+    }
+
     /** Check if water sensor detected water
     * @param pin pin used
     */
@@ -613,5 +623,25 @@ namespace tomatobit {
     //% weight=2
     export function robotbitWaterSensor(pin: AnalogPin): boolean {
         return ((pins.analogReadPin(pin) < 200) ? true : false);
+    }
+
+    /** Get soil moisture sensor detected value
+    * @param pin pin used
+    */
+    //% blockId="robotbitSoilMoistureSensorValue" block="soil moisture sensor %pin|"
+    //% group="Component & Sensor"
+    //% weight=1
+    export function robotbitSoilMoistureSensorValue(pin: AnalogPin): number {
+        return pins.analogReadPin(pin);
+    }
+
+    /** Check if soil moisture sensor detected water
+    * @param pin pin used
+    */
+    //% blockId="robotbitSoilMoistureSensor" block="soil moisture sensor %pin| detected water?"
+    //% group="Component & Sensor"
+    //% weight=2
+    export function robotbitSoilMoistureSensor(pin: AnalogPin): boolean {
+        return ((pins.analogReadPin(pin) >= 900) ? true : false);
     }
 }

@@ -35,5 +35,8 @@
     "tomatobit.robotbitUltrasonic|block": "超聲波感應器 Trig %trigPin|Echo %echoPin|偵測到的距離（cm）",
     "tomatobit.robotbitPIR|block": "人體紅外線感應器 %pin| 偵測到移動？",
     "tomatobit.robotbitWhenPIR|block": "當人體紅外線感應器 %pin| 偵測到移動",
-    "tomatobit.robotbitWaterSensor|block": "水位感應器 %pin| 偵測到水份？"
+    "tomatobit.robotbitWaterSensor|block": "水位感應器 %pin| 偵測到水份？",
+    "tomatobit.robotbitWaterSensorValue|block": "水位感應器 %pin|",
+    "tomatobit.robotbitSoilMoistureSensor|block": "土壤濕度感應器 %pin| 偵測到水份？",
+    "tomatobit.robotbitSoilMoistureSensorValue|block": "土壤濕度感應器 %pin|"
 }
