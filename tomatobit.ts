@@ -612,6 +612,6 @@ namespace tomatobit {
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitWaterSensor(pin: AnalogPin): boolean {
-        return ((pins.AnalogReadPin(pin) < 200) ? true : false);
+        return ((pins.analogReadPin(pin) < 200) ? true : false);
     }
 }
