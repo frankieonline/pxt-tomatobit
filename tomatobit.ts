@@ -494,6 +494,7 @@ namespace tomatobit {
     //% blockId="lcdOn" block="Turn on LCD"
     //% group="LCD"
     //% weight=1
+    //% advanced=true
     export function lcdOn(): void {
         cmd(0x0C);
     }
@@ -503,6 +504,7 @@ namespace tomatobit {
     //% blockId="lcdOff" block="Turn off LCD"
     //% group="LCD"
     //% weight=1
+    //% advanced=true
     export function lcdOff(): void {
         cmd(0x08);
     }
@@ -512,6 +514,7 @@ namespace tomatobit {
     //% blockId="lcdClear" block="Clear LCD display"
     //% group="LCD"
     //% weight=3
+    //% advanced=true
     export function lcdClear(): void {
         cmd(0x01);
     }
@@ -521,6 +524,7 @@ namespace tomatobit {
     //% blockId="lcdBacklightOn" block="Turn on LCD Backlight"
     //% group="LCD"
     //% weight=1
+    //% advanced=true
     export function lcdBacklightOn(): void {
         BK = 8;
         cmd(0);
@@ -531,6 +535,7 @@ namespace tomatobit {
     //% blockId="lcdBacklightOff" block="Turn off LCD Backlight"
     //% group="LCD"
     //% weight=1
+    //% advanced=true
     export function lcdBacklightOff(): void {
         BK = 0;
         cmd(0);
@@ -541,6 +546,7 @@ namespace tomatobit {
     //% blockId="lcdShiftLeft" block="LCD Screen shift left"
     //% group="LCD"
     //% weight=2
+    //% advanced=true
     export function lcdShiftLeft(): void {
         cmd(0x18);
     }
@@ -550,6 +556,7 @@ namespace tomatobit {
     //% blockId="lcdShiftRight" block="LCD Screen shift right"
     //% group="LCD"
     //% weight=2
+    //% advanced=true
     export function lcdShiftRight(): void {
         cmd(0x1C);
     }
