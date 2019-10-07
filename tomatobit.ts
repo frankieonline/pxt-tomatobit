@@ -50,26 +50,6 @@ enum Servos {
     S8 = 0x08
 }
 
-enum Ports {
-    PORT1 = 0,
-    PORT2 = 1,
-    PORT3 = 2,
-    PORT4 = 3
-}
-
-enum PortsA {
-    PORT1 = 0,
-    PORT2 = 1,
-    PORT3 = 2
-}
-
-enum Slots {
-    //% block="Left"
-    A = 0,
-    //% block="Right"
-    B = 1
-}
-
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD", "NeoPixel"]
 namespace tomatobit {
