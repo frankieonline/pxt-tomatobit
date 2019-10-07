@@ -642,6 +642,6 @@ namespace tomatobit {
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitSoilMoistureSensor(pin: AnalogPin): boolean {
-        return ((pins.analogReadPin(pin) >= 900) ? true : false);
+        return ((pins.analogReadPin(pin) < 900) ? true : false);
     }
 }
