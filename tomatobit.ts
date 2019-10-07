@@ -21,6 +21,15 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
+enum PingUnit {
+    //% block="μs"
+    MicroSeconds,
+    //% block="cm"
+    Centimeters,
+    //% block="inches"
+    Inches
+}
+
 enum LCD_AddressType {
     //% block="Auto Recognition (0)"
     auto = 0,
@@ -71,7 +80,7 @@ enum Slots {
 }
 
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
-//% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD"]
+//% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD", "NeoPixel"]
 namespace tomatobit {
     const PortDigi = [
         DigitalPin.P0, DigitalPin.P8,
@@ -119,6 +128,33 @@ namespace tomatobit {
         _matrixChain: number; // the connection type of matrix chain
         _matrixRotation: number; // the rotation type of matrix
 
+        /** Shows all LEDs to a given color (range 0-255 for r, g, b).
+        * @param rgb RGB color of the LED
+        */
+        //% blockId="neopixelShowColor" block="Robot:bit LEDs show color %rgb=getNeoPixelKnownColors"
+        //% group="NeoPixel"
+        //% weight=85 blockGap=8
+        neopixelShowColor(rgb: number) {
+            rgb = rgb >> 0;
+            this.setAllRGB(rgb);
+            this.show();
+        }
+
+        /** Send all the changes to the strip. */
+        //% blockId="neopixelShow" blockGap=8
+        //% weight=79
+        //% group="NeoPixel"
+        neopixelShow() {
+            sendBuffer(this.buf, this.pin);
+        }
+
+        /** Turn off all LEDs. You need to call "neopixelShow" to make the changes visible. */
+        //% blockId="neopixelClear"
+        neopixelClear() {
+            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
+            this.buf.fill(0, this.start * stride, this._length * stride);
+        }
+
         setBufferRGB(offset: number, red: number, green: number, blue: number): void {
             if (this._mode === NeoPixelMode.RGB_RGB) {
                 this.buf[offset + 0] = red;
@@ -156,10 +192,6 @@ namespace tomatobit {
             this.pin = pin;
             pins.digitalWritePin(this.pin, 0);
         }
-
-        show() {
-            sendBuffer(this.buf, this.pin);
-        }
     }
 
     function packRGB(a: number, b: number, c: number): number {
@@ -184,8 +216,8 @@ namespace tomatobit {
     */
     //% block="%knownColor"
     //% blockId="getNeoPixelKnownColor"
-    //% group="Robot:bit"
-    //% weight=900
+    //% group="NeoPixel"
+    //% weight=1
     //% parts="tomatobit"
     export function getNeoPixelKnownColor(knownColor: NeoPixelKnownColors):number {
         return knownColor;
@@ -198,8 +230,8 @@ namespace tomatobit {
     */
     //% block="RGB(red: %red|green: %green|blue: %blue|)"
     //% blockId="getRGBColor"
-    //% group="Robot:bit"
-    //% weight=900
+    //% group="NeoPixel"
+    //% weight=1
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
     //% blue.min=0 blue.max=255
@@ -215,8 +247,8 @@ namespace tomatobit {
     */
     //% block="Set Robot:bit LEDs range from %start|with %length|LEDs show color %rgb=getNeoPixelKnownColor"
     //% blockId="setLEDs"
-    //% group="Robot:bit"
-    //% weight=999
+    //% group="NeoPixel"
+    //% weight=2
     //% start.min=0 start.max=3
     //% length.min=0 length.max=4
     //% parts="tomatobit"
@@ -235,7 +267,26 @@ namespace tomatobit {
         strip.setBrightness(255);
         strip.setPin(pin);
         strip.setAllRGB(rgb);
-        strip.show();
+        strip.neopixelShow();
+    }
+
+    /** Turn off all LEDs
+    */
+    //% block="Turn off all Robot:bit LEDs"
+    //% blockId="turnOffAllLEDs"
+    //% group="NeoPixel"
+    //% weight=2
+    //% parts="tomatobit"
+    export function turnOffAllLEDs(): void {
+        let strip = new Strip();
+        let pin = DigitalPin.P16;
+
+        strip.buf = pins.createBuffer(12);
+        strip.start = 0;
+        strip._length = 4;
+        strip._mode = NeoPixelMode.RGB;
+        strip._matrixWidth = 0;
+        strip.neopixelClear();
     }
 
     /** Play sound on buzzer
@@ -245,7 +296,7 @@ namespace tomatobit {
     //% block="Set Robot:bit buzzer play %frequency|(Hz) for %duration|seconds"
     //% blockId="setBuzzer"
     //% group="Robot:bit"
-    //% weight=899
+    //% weight=2
     //% parts="tomatobit"
     export function setBuzzer(frequency: number, duration: number): void {
         music.playTone(frequency, duration * 1000);
@@ -316,7 +367,7 @@ namespace tomatobit {
     */
     //% blockId="robotbitServo" block="Servo %index|degree %degree"
     //% group="Robot:bit"
-    //% weight=899
+    //% weight=2
     //% parts="tomatobit"
     //% degree.min=0 degree.max=180
     export function robotbitServo(index: Servos, degree: number): void {
@@ -334,7 +385,7 @@ namespace tomatobit {
     */
     //% blockId="externalButton" block="External button|%ioPin| is pressed?"
     //% group="Component & Sensor"
-    //% weight=799
+    //% weight=2
     export function externalButton(ioPin: DigitalPin): boolean {
         return ((pins.digitalReadPin(ioPin) == 1) ? true : false);
     }
@@ -406,7 +457,7 @@ namespace tomatobit {
     */
     //% blockId="lcdSetAddress" block="Initialize LCD, set I2C address as %addr"
     //% group="LCD"
-    //% weight=799
+    //% weight=5
     export function lcdSetAddress(addr: LCD_AddressType): void {
         if (addr == 0) i2cAddr = AutoAddr();
         else i2cAddr = addr;
@@ -425,13 +476,13 @@ namespace tomatobit {
     }
 
     /** Display numbers in the specified position of the LCD
-     * @param n is number will be show, eg: 10, 100, 200
-     * @param x is LCD column position, eg: 0
-     * @param y is LCD row position, eg: 0
-     */
+    * @param n is number will be show, eg: 10, 100, 200
+    * @param x is LCD column position, eg: 0
+    * @param y is LCD row position, eg: 0
+    */
     //% blockId="lcdShowNumber" block="Show number %n|at position x %x|y %y"
     //% group="LCD"
-    //% weight=799
+    //% weight=4
     //% x.min=0 x.max=15
     //% y.min=0 y.max=1
     export function lcdShowNumber(n: number, x: number, y: number): void {
@@ -440,22 +491,22 @@ namespace tomatobit {
     }
 
     /** Display string in the specified position of the LCD
-     * @param s is string will be show, eg: "Hello"
-     * @param x is LCD column position, [0 - 15], eg: 0
-     * @param y is LCD row position, [0 - 1], eg: 0
-     */
+    * @param s is string will be show, eg: "Hello"
+    * @param x is LCD column position, [0 - 15], eg: 0
+    * @param y is LCD row position, [0 - 1], eg: 0
+    */
     //% blockId="lcdShowString" block="Show string %s|at position x %x|y %y"
     //% group="LCD"
-    //% weight=799
+    //% weight=4
     //% x.min=0 x.max=15
     //% y.min=0 y.max=1
     export function lcdShowString(s: string, x: number, y: number): void {
         let a: number
 
         if (y > 0)
-            a = 0xC0;
+        a = 0xC0;
         else
-            a = 0x80;
+        a = 0x80;
         a += x;
         cmd(a);
 
@@ -465,88 +516,95 @@ namespace tomatobit {
     }
 
     /** Turn on LCD Display
-     */
+    */
     //% blockId="lcdOn" block="Turn on LCD"
     //% group="LCD"
-    //% weight=789
+    //% weight=1
     export function lcdOn(): void {
         cmd(0x0C);
     }
 
     /** Turn off LCD Display
-     */
+    */
     //% blockId="lcdOff" block="Turn off LCD"
     //% group="LCD"
-    //% weight=789
+    //% weight=1
     export function lcdOff(): void {
         cmd(0x08);
     }
 
     /** Clear LCD Display
-     */
+    */
     //% blockId="lcdClear" block="Clear LCD display"
     //% group="LCD"
-    //% weight=789
+    //% weight=3
     export function lcdClear(): void {
         cmd(0x01);
     }
 
     /** Turn on LCD Backlight
-     */
+    */
     //% blockId="lcdBacklightOn" block="Turn on LCD Backlight"
     //% group="LCD"
-    //% weight=789
+    //% weight=1
     export function lcdBacklightOn(): void {
         BK = 8;
         cmd(0);
     }
 
     /** Turn off LCD Backlight
-     */
+    */
     //% blockId="lcdBacklightOff" block="Turn off LCD Backlight"
     //% group="LCD"
-    //% weight=789
+    //% weight=1
     export function lcdBacklightOff(): void {
         BK = 0;
         cmd(0);
     }
 
     /** Screen shift left
-     */
-    //% blockId="lcdShiftLeft" block="Screen shift left"
+    */
+    //% blockId="lcdShiftLeft" block="LCD Screen shift left"
     //% group="LCD"
-    //% weight=789
+    //% weight=2
     export function lcdShiftLeft(): void {
         cmd(0x18);
     }
 
     /** Screen shift right
-     */
-    //% blockId="lcdShiftRight" block="Screen shift right"
+    */
+    //% blockId="lcdShiftRight" block="LCD Screen shift right"
     //% group="LCD"
-    //% weight=789
+    //% weight=2
     export function lcdShiftRight(): void {
         cmd(0x1C);
     }
 
-    //% blockId=robotbitUltrasonic block="Distance (cm) that ultrasonic Sensor %pin| detected"
+    /** Send a ultrasonic ping and get the echo time (in microseconds) as a result
+    * @param trigPin tigger pin
+    * @param echoPin echo pin
+    * @param unit desired conversion unit
+    * @param maxCmDistance maximum distance in centimeters (default is 500)
+    */
+    //% blockId="robotbitUltrasonic" block="Distance (%unit|) that ultrasonic Sensor Trig %trigPin|Echo %echoPin| detected"
     //% group="Component & Sensor"
-    //% weight=799
-    export function robotbitUltrasonic(pin: DigitalPin): number {
-        pins.setPull(pin, PinPullMode.PullNone);
-
-        pins.digitalWritePin(pin, 0);
+    //% weight=2
+    export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, unit: PingUnit, maxCmDistance = 500): number {
+        // send pulse
+        pins.setPull(trigPin, PinPullMode.PullNone);
+        pins.digitalWritePin(trigPin, 0);
         control.waitMicros(2);
-        pins.digitalWritePin(pin, 1);
+        pins.digitalWritePin(trigPin, 1);
         control.waitMicros(10);
-        pins.digitalWritePin(pin, 0);
+        pins.digitalWritePin(trigPin, 0);
 
-        let d = pins.pulseIn(pin, PulseValue.High, 25000);
-        let ret = d;
-        if (ret == 0 && distanceBuf != 0) {
-            ret = distanceBuf;
+        // read pulse
+        const d = pins.pulseIn(echoPin, PulseValue.High, maxCmDistance * 58);
+
+        switch (unit) {
+            case PingUnit.Centimeters: return Math.idiv(d, 58);
+            case PingUnit.Inches: return Math.idiv(d, 148);
+            default: return d ;
         }
-        distanceBuf = d;
-        return Math.floor(ret * 9 / 6 / 58);
     }
 }
