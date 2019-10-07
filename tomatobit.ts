@@ -80,19 +80,6 @@ enum Slots {
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
 //% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD", "NeoPixel"]
 namespace tomatobit {
-    const PortDigi = [
-        DigitalPin.P0, DigitalPin.P8,
-        DigitalPin.P1, DigitalPin.P12,
-        DigitalPin.P2, DigitalPin.P13,
-        DigitalPin.P14, DigitalPin.P15
-    ];
-
-    const PortAnalog = [
-        AnalogPin.P0,
-        AnalogPin.P1,
-        AnalogPin.P2
-    ];
-
     const PCA9685_ADDRESS = 0x40;
     const MODE1 = 0x00;
     const MODE2 = 0x01;
