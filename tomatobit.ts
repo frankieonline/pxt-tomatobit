@@ -655,4 +655,88 @@ namespace tomatobit {
     export function robotbitSoilMoistureSensor(pin: AnalogPin): boolean {
         return ((pins.analogReadPin(pin) < 900) ? true : false);
     }
+
+    let _temperatureC: number = 0.0;
+    let _temperatureF: number = 0.0;
+    let _humdity: humidty = 0.0;
+    let _readSuccessful: boolean = false;
+
+    /** DHT11 Temperature & Humidty Sensor
+    * @param pin pin used
+    * @param type data wanted
+    */
+    //% blockId="robotbitTempHumdSensor" block="DHT11 Temperature & Humidty Sensor %pin| %type|"
+    //% group="Component & Sensor"
+    //% weight=2
+    export function robotbitTempHumdSensor(pin: DigitalPin, type: DHT11Type): number {
+        let startTime: number = 0;
+        let endTime: number = 0;
+        let checkSum: number = 0;
+        let checkSumTmp: number = 0;
+        let dataArray: bollean[] = [];
+        let resultArray: number[] = [];
+        for (let index = 0; index < 40; index++) {
+            dataArray.push(false);
+        }
+        for (let index = 0; index < 5; index++) {
+            resultArray.push(0);
+        }
+        _temperatureC = -999.0;
+        _temperatureF = -999.0;
+        _humdity = -999.0;
+        _readSuccessful = false;
+
+        startTime = input.runningTimeMicros();
+        pins.digitalWritePin(pin, 0);
+        basic.pause(18);
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.digitalReadPin(pin);
+        while (pins.digitalReadPin(pin) == 1);
+        while (pins.digitalReadPin(pin) == 0);
+        while (pins.digitalReadPin(pin) == 1);
+
+        for (let index = 0; index < 40; index++) {
+            while (pins.digitalReadPin(pin) == 1);
+            while (pins.digitalReadPin(pin) == 0);
+            control.waitMicros(28);
+            if (pins.digitalReadPin(pin) == 1) {
+                dataArray[index] = true;
+            }
+        }
+
+        endTime = input.runningTimeMicros();
+
+        for (let index = 0; index < 5; index++) {
+            for (let index2 = 0; index2 < 8; index2++) {
+                if (dataArray[8 * index + index2]) {
+                    resultArray[index] += 2 ** (7 - index2);
+                }
+            }
+        }
+
+        checkSumTmp = resultArray[0] + resultArray[1] + resultArray[2] + resultArray[3];
+        checkSum = resultArray[4];
+        if (checkSumTmp >= 512) { checkSumTmp -= 512; }
+        if (checkSumTmp >= 256) { checkSumTmp -= 256; }
+        if (checkSum == checkSumTmp) { _readSuccessful = true; }
+        basic.pause(1000);
+
+        if (_readSuccessful) {
+            _temperatureC = resultArray[2] + resultArray[3] / 100;
+            _temperatureF = _temperatureC * 1.8 + 32;
+            _humdity = resultArray[0] + resultArray[1] / 100;
+            if (type == DHT11Type.TemperatureC) {
+                return Math.round10(_temperatureC, -1);
+            }
+            else if (type == DHT11Type.TemperatureF) {
+                return Math.round10(_temperatureF, -1);
+            }
+            else if (type == DHT11Type.Humidity) {
+                return Math.round10(_humdity, -1);
+            }
+        }
+        else {
+            return -999;
+        }
+    }
 }
