@@ -21,9 +21,6 @@
     "PortsA.PORT1|block": "連接埠1",
     "PortsA.PORT2|block": "連接埠2",
     "PortsA.PORT3|block": "連接埠3",
-    "PingUnit.MicroSeconds|block": "微秒（μs）",
-    "PingUnit.Centimeters|block": "厘米（cm）",
-    "PingUnit.Inches|block": "英寸（inches）",
     "LCD_AddressType.auto|block": "自動識別（0）",
     "LCD_AddressType.PCF8574|block": "PCF8574（39）",
     "LCD_AddressType.PCF8574A|block": "PCF8574A（63）",
@@ -44,5 +41,5 @@
     "tomatobit.lcdBacklightOff|block": "關閉 LCD 背光",
     "tomatobit.lcdShiftLeft|block": "LCD 顯示內容向左移",
     "tomatobit.lcdShiftRight|block": "LCD 顯示內容向右移",
-    "tomatobit.robotbitUltrasonic|block": "超聲波感應器 Trig %trigPin|Echo %echoPin|偵測到的距離（%unit|）"
+    "tomatobit.robotbitUltrasonic|block": "超聲波感應器 Trig %trigPin|Echo %echoPin|偵測到的距離（cm）"
 }

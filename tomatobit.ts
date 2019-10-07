@@ -21,15 +21,6 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
-enum PingUnit {
-    //% block="μs"
-    MicroSeconds,
-    //% block="cm"
-    Centimeters,
-    //% block="inches"
-    Inches
-}
-
 enum LCD_AddressType {
     //% block="Auto Recognition (0)"
     auto = 0,
@@ -586,13 +577,12 @@ namespace tomatobit {
     /** Send a ultrasonic ping and get the echo time (in microseconds) as a result
     * @param trigPin tigger pin
     * @param echoPin echo pin
-    * @param unit desired conversion unit
     * @param maxCmDistance maximum distance in centimeters (default is 500)
     */
-    //% blockId="robotbitUltrasonic" block="Distance (%unit|) that ultrasonic Sensor Trig %trigPin|Echo %echoPin| detected"
+    //% blockId="robotbitUltrasonic" block="Distance (cm) that ultrasonic Sensor Trig %trigPin|Echo %echoPin| detected"
     //% group="Component & Sensor"
     //% weight=2
-    export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, unit: PingUnit, maxCmDistance = 500): number {
+    export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, maxCmDistance = 500): number {
         // send pulse
         pins.setPull(trigPin, PinPullMode.PullNone);
         pins.digitalWritePin(trigPin, 0);
@@ -604,10 +594,6 @@ namespace tomatobit {
         // read pulse
         const d = pins.pulseIn(echoPin, PulseValue.High, maxCmDistance * 58);
 
-        switch (unit) {
-            case PingUnit.Centimeters: return Math.idiv(d, 58);
-            case PingUnit.Inches: return Math.idiv(d, 148);
-            default: return d ;
-        }
+        return Math.idiv(d, 58);
     }
 }
