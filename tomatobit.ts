@@ -562,7 +562,7 @@ namespace tomatobit {
     //% blockId="robotbitUltrasonic" block="Distance (cm) that ultrasonic Sensor Trig %trigPin|Echo %echoPin| detected"
     //% group="Component & Sensor"
     //% weight=2
-    export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, maxCmDistance = 500): number {
+    export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, maxCmDistance = 400): number {
         // send pulse
         pins.setPull(trigPin, PinPullMode.PullNone);
         pins.digitalWritePin(trigPin, 0);
