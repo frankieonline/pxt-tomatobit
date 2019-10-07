@@ -102,6 +102,8 @@ namespace tomatobit {
     const ALL_LED_OFF_L = 0xFC;
     const ALL_LED_OFF_H = 0xFD;
 
+    let distanceBuf = 0;
+
     //% shim=sendBufferAsm
     function sendBuffer(buf: Buffer, pin: DigitalPin) {
     }
@@ -434,7 +436,7 @@ namespace tomatobit {
     //% y.min=0 y.max=1
     export function lcdShowNumber(n: number, x: number, y: number): void {
         let s = n.toString();
-        ledShowString(s, x, y);
+        lcdShowString(s, x, y);
     }
 
     /** Display string in the specified position of the LCD
