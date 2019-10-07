@@ -661,11 +661,11 @@ namespace tomatobit {
     let _humidity: number = 0.0;
     let _readSuccessful: boolean = false;
 
-    /** DHT11 Temperature & Humidty Sensor
+    /** DHT11 Temperature & Humdity Sensor
     * @param pin pin used
     * @param type data wanted
     */
-    //% blockId="robotbitTempHumdSensor" block="DHT11 Temperature & Humidty Sensor %pin| %type|"
+    //% blockId="robotbitTempHumdSensor" block="DHT11 Temperature & Humdity Sensor %pin| %type|"
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitTempHumdSensor(pin: DigitalPin, type: DHT11Type): number {
