@@ -21,6 +21,15 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
+enum DHT11Type {
+    //% block=temperature(°C)
+    TemperatureC = 0,
+    //% block=temperature(°F)
+    TemperatureF = 1,
+    //% block=humidity
+    Humidity = 2
+}
+
 enum LCD_AddressType {
     //% block="Auto Recognition (0)"
     auto = 0,
@@ -611,6 +620,7 @@ namespace tomatobit {
     //% blockId="robotbitWaterSensorValue" block="water sensor %pin|"
     //% group="Component & Sensor"
     //% weight=1
+    //% advanced=true
     export function robotbitWaterSensorValue(pin: AnalogPin): number {
         return pins.analogReadPin(pin);
     }
@@ -631,6 +641,7 @@ namespace tomatobit {
     //% blockId="robotbitSoilMoistureSensorValue" block="soil moisture sensor %pin|"
     //% group="Component & Sensor"
     //% weight=1
+    //% advanced=true
     export function robotbitSoilMoistureSensorValue(pin: AnalogPin): number {
         return pins.analogReadPin(pin);
     }
