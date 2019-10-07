@@ -444,7 +444,7 @@ namespace tomatobit {
      * @param x is LCD column position, [0 - 15], eg: 0
      * @param y is LCD row position, [0 - 1], eg: 0
      */
-    //% blockId="ledShowString" block="Show string %s|at position x %x|y %y"
+    //% blockId="lcdShowString" block="Show string %s|at position x %x|y %y"
     //% group="LCD"
     //% weight=799
     //% x.min=0 x.max=15
