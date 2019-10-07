@@ -577,13 +577,25 @@ namespace tomatobit {
         return d;
     }
 
-    /** Check PIR sense human movement
+    /** Check if PIR detected human movement
     * @param pin pin used
     */
     //% blockId="robotbitPIR" block="PIR %pin| detected human?"
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitPIR(pin: DigitalPin): boolean {
-        return true;
+        pins.setPull(pin, PinPullMode.PullUp);
+        return pins.digitalReadPin(pin) == 1;
+    }
+
+    /** When PIR detected human movement
+    * @param pin pin used
+    */
+    //% blockId="robotbitWhenPIR" block="When PIR %pin| detected human"
+    //% group="Component & Sensor"
+    //% weight=2
+    export function robotbitWhenPIR(pin: DigitalPin, handler: () => void): void {
+        pins.setPull(pin, PinPullMode.PullUp);
+        pins.onPulsed(pin, PulseValue.High, handler);
     }
 }
