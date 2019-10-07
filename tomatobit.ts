@@ -584,8 +584,7 @@ namespace tomatobit {
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitPIR(pin: DigitalPin): boolean {
-        pins.setPull(pin, PinPullMode.PullUp);
-        return pins.digitalReadPin(pin) == 1;
+        return ((pins.digitalReadPin(pin) == 1) ? true : false);
     }
 
     /** When PIR detected human movement
@@ -595,7 +594,6 @@ namespace tomatobit {
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitWhenPIR(pin: DigitalPin, handler: () => void): void {
-        pins.setPull(pin, PinPullMode.PullUp);
         pins.onPulsed(pin, PulseValue.High, handler);
     }
 }
