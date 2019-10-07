@@ -574,6 +574,6 @@ namespace tomatobit {
         // read pulse
         const d = pins.pulseIn(echoPin, PulseValue.High, maxCmDistance * 58);
 
-        return Math.idiv(d, 58);
+        return Math.idiv(d, 3000);
     }
 }
