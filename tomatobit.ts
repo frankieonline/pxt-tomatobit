@@ -600,7 +600,29 @@ namespace tomatobit {
     //% blockId="robotbitWhenPIR" block="When PIR %pin| detected human"
     //% group="Component & Sensor"
     //% weight=2
+    //% advanced=true
     export function robotbitWhenPIR(pin: DigitalPin, handler: () => void): void {
+        pins.onPulsed(pin, PulseValue.High, handler);
+    }
+
+    /** Check if water sensor detected water
+    * @param pin pin used
+    */
+    //% blockId="robotbitWaterSensor" block="water sensor %pin| detected water?"
+    //% group="Component & Sensor"
+    //% weight=2
+    export function robotbitWaterSensor(pin: DigitalPin): boolean {
+        return ((pins.digitalReadPin(pin) == 1) ? true : false);
+    }
+
+    /** When water sensor detected water
+    * @param pin pin used
+    */
+    //% blockId="robotbitWhenWaterSensor" block="When water sensor %pin| detected water"
+    //% group="Component & Sensor"
+    //% weight=2
+    //% advanced=true
+    export function robotbitWhenWaterSensor(pin: DigitalPin, handler: () => void): void {
         pins.onPulsed(pin, PulseValue.High, handler);
     }
 }
