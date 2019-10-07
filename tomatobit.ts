@@ -658,7 +658,7 @@ namespace tomatobit {
 
     let _temperatureC: number = 0.0;
     let _temperatureF: number = 0.0;
-    let _humdity: humidty = 0.0;
+    let _humdity: number = 0.0;
     let _readSuccessful: boolean = false;
 
     /** DHT11 Temperature & Humidty Sensor
@@ -673,7 +673,7 @@ namespace tomatobit {
         let endTime: number = 0;
         let checkSum: number = 0;
         let checkSumTmp: number = 0;
-        let dataArray: bollean[] = [];
+        let dataArray: boolean[] = [];
         let resultArray: number[] = [];
         for (let index = 0; index < 40; index++) {
             dataArray.push(false);
@@ -726,13 +726,13 @@ namespace tomatobit {
             _temperatureF = _temperatureC * 1.8 + 32;
             _humdity = resultArray[0] + resultArray[1] / 100;
             if (type == DHT11Type.TemperatureC) {
-                return Math.round10(_temperatureC, -1);
+                return _temperatureC;
             }
             else if (type == DHT11Type.TemperatureF) {
-                return Math.round10(_temperatureF, -1);
+                return _temperatureF;
             }
             else if (type == DHT11Type.Humidity) {
-                return Math.round10(_humdity, -1);
+                return _humdity;
             }
         }
         else {
