@@ -557,7 +557,7 @@ namespace tomatobit {
     /** Send a ultrasonic ping and get the echo time (in microseconds) as a result
     * @param trigPin tigger pin
     * @param echoPin echo pin
-    * @param maxCmDistance maximum distance in centimeters (default is 500)
+    * @param maxCmDistance maximum distance in centimeters (default is 400)
     */
     //% blockId="robotbitUltrasonic" block="Distance (cm) that ultrasonic Sensor Trig %trigPin|Echo %echoPin| detected"
     //% group="Component & Sensor"
