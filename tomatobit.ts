@@ -23,11 +23,11 @@ enum NeoPixelKnownColors {
 
 enum DHT11Type {
     //% block=temperature(°C)
-    TemperatureC = 0,
+    TemperatureC,
     //% block=temperature(°F)
-    TemperatureF = 1,
+    TemperatureF,
     //% block=humidity
-    Humidity = 2
+    Humidity
 }
 
 enum LCD_AddressType {
@@ -658,7 +658,7 @@ namespace tomatobit {
 
     let _temperatureC: number = 0.0;
     let _temperatureF: number = 0.0;
-    let _humdity: number = 0.0;
+    let _humidity: number = 0.0;
     let _readSuccessful: boolean = false;
 
     /** DHT11 Temperature & Humidty Sensor
@@ -683,7 +683,7 @@ namespace tomatobit {
         }
         _temperatureC = -999.0;
         _temperatureF = -999.0;
-        _humdity = -999.0;
+        _humidity = -999.0;
         _readSuccessful = false;
 
         startTime = input.runningTimeMicros();
@@ -724,7 +724,7 @@ namespace tomatobit {
         if (_readSuccessful) {
             _temperatureC = resultArray[2] + resultArray[3] / 100;
             _temperatureF = _temperatureC * 1.8 + 32;
-            _humdity = resultArray[0] + resultArray[1] / 100;
+            _humidity = resultArray[0] + resultArray[1] / 100;
             if (type == DHT11Type.TemperatureC) {
                 return _temperatureC;
             }
@@ -732,7 +732,7 @@ namespace tomatobit {
                 return _temperatureF;
             }
             else if (type == DHT11Type.Humidity) {
-                return _humdity;
+                return _humidity;
             }
         }
         else {
