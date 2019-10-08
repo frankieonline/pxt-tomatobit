@@ -785,7 +785,7 @@ namespace tomatobit {
             ret = distanceBuf;
         }
         distanceBuf = d;
-        return Math.floor(ret * 10 / 6 / 58);
+        return Math.floor(ret / 6 / 58);
     }
 
     //% blockId="mbridgePIR" block="Me PIR %port| detected movement?"
