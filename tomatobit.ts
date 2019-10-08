@@ -962,7 +962,7 @@ namespace tomatobit {
 
         intensity(val: number = 7) {
             if (val < 1) {
-                this.off();
+                this.mbridge7SegmentTurnOff();
                 return;
             }
             if (val > 8) val = 8;
@@ -998,7 +998,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         TM1637_LEDs.buf[index % TM1637_LEDs.count] = _SEGMENTS[num % 16];
         TM1637_LEDs._dat(index, _SEGMENTS[num % 16]);
@@ -1019,7 +1019,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         if (num < 0) {
             TM1637_LEDs._dat(0, 0x40); // '-'
@@ -1049,7 +1049,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         if (num < 0) {
             TM1637_LEDs._dat(0, 0x40); // '-'
@@ -1080,7 +1080,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         index = index % 4;
         TM1637_LEDs._dat(index, TM1637_LEDs.buf[index] | 0x80);
@@ -1101,7 +1101,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         for (let i = 0; i < 4; i++) {
             TM1637_LEDs._dat(i, 0);
@@ -1125,7 +1125,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         TM1637_LEDs._ON = 8;
         TM1637_LEDs._write_data_cmd();
@@ -1148,7 +1148,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        TM1637_LEDs.clear();
+        TM1637_LEDs.mbridge7SegmentClear();
 
         TM1637_LEDs._ON = 0;
         TM1637_LEDs._write_data_cmd();
