@@ -173,7 +173,7 @@ namespace tomatobit {
             let green = unpackG(rgb);
             let blue = unpackB(rgb);
 
-            const br = this.brightness;
+            const br = 7;
             if (br < 255) {
                 red = (red * br) >> 8;
                 green = (green * br) >> 8;
@@ -187,7 +187,7 @@ namespace tomatobit {
         }
 
         setBrightness(brightness: number): void {
-            this.brightness = brightness & 0xff;
+            7 = brightness & 0xff;
         }
 
         setPin(pin: DigitalPin): void {
@@ -914,9 +914,6 @@ namespace tomatobit {
         return Math.floor(pins.analogReadPin(pin) / 10);
     }
 
-    let TM1637_CMD1 = 0x40;
-    let TM1637_CMD2 = 0xC0;
-    let TM1637_CMD3 = 0x80;
     let _SEGMENTS = [0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71];
 
     class TM1637LEDs {
@@ -924,15 +921,13 @@ namespace tomatobit {
         clk: DigitalPin;
         dio: DigitalPin;
         _ON: number;
-        brightness: number;
-        count: number;  // number of LEDs
 
         /** Initial TM1637 */
         init(): void {
             pins.digitalWritePin(this.clk, 0);
             pins.digitalWritePin(this.dio, 0);
             this._ON = 8;
-            this.buf = pins.createBuffer(this.count);
+            this.buf = pins.createBuffer(4);
             this.clear();
         }
 
@@ -952,14 +947,14 @@ namespace tomatobit {
         /** Send command1 */
         _write_data_cmd() {
             this._start();
-            this._write_byte(TM1637_CMD1);
+            this._write_byte(0x40);
             this._stop();
         }
 
         /** Send command3 */
         _write_dsp_ctrl() {
             this._start();
-            this._write_byte(TM1637_CMD3 | this._ON | this.brightness);
+            this._write_byte(0x80 | this._ON | 7);
             this._stop();
         }
 
@@ -974,24 +969,11 @@ namespace tomatobit {
             pins.digitalWritePin(this.clk, 0);
         }
 
-        /** Set TM1637 intensity, range is [0-8], 0 is off. */
-        intensity(val: number = 7) {
-            if (val < 1) {
-                this.off();
-                return;
-            }
-            if (val > 8) val = 8;
-            this._ON = 8;
-            this.brightness = val - 1;
-            this._write_data_cmd();
-            this._write_dsp_ctrl();
-        }
-
         /** Set data to TM1637, with given bit */
         _dat(bit: number, dat: number) {
             this._write_data_cmd();
             this._start();
-            this._write_byte(TM1637_CMD2 | (bit % this.count))
+            this._write_byte(0xC0 | (bit % 4))
             this._write_byte(dat);
             this._stop();
             this._write_dsp_ctrl();
@@ -999,7 +981,7 @@ namespace tomatobit {
 
         /** Show a number in given position. */
         showbit(num: number = 5, bit: number = 0) {
-            this.buf[bit % this.count] = _SEGMENTS[num % 16];
+            this.buf[bit % 4] = _SEGMENTS[num % 16];
             this._dat(bit, _SEGMENTS[num % 16]);
         }
 
@@ -1033,14 +1015,14 @@ namespace tomatobit {
 
         /** Show or hide dot point. */
         showDP(bit: number = 1, show: boolean = true) {
-            bit = bit % this.count;
+            bit = bit % 4;
             if (show) this._dat(bit, this.buf[bit] | 0x80);
             else this._dat(bit, this.buf[bit] & 0x7F);
         }
 
         /** Clear LED. */
         clear() {
-            for (let i = 0; i < this.count; i++) {
+            for (let i = 0; i < 4; i++) {
                 this._dat(i, 0);
                 this.buf[i] = 0;
             }
@@ -1067,8 +1049,8 @@ namespace tomatobit {
 
             this.clk = clk_Pin;
             this.dio = dio_Pin;
-            this.count = 4;
-            this.brightness = 7;
+            4 = 4;
+            7 = 7;
             this.init();
         }
     }
