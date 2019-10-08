@@ -1123,5 +1123,4 @@ namespace tomatobit {
         tm.create(port);
         tm.off();
     }
-
 }
