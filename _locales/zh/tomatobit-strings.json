@@ -63,5 +63,11 @@
     "tomatobit.mbridgeDHT11|block": "Me 溫濕度感應器 %port| %readtype|",
     "tomatobit.mbridgeSound|block": "Me 聲音感應器 %port|",
     "tomatobit.mbridgeLight|block": "Me 光線感應器 %port|",
-    "tomatobit.mbridgePotentiometer|block": "Me 電位器 %port|"
+    "tomatobit.mbridgePotentiometer|block": "Me 電位器 %port|",
+    "tomatobit.mbridge7SegmentShowDigit|block": "Me 數字板 %port| 於第 %index| 個位顯示數字 %num|",
+    "tomatobit.mbridge7SegmentShowNumber|block": "Me 數字板 %port| 顯示數字 %num|",
+    "tomatobit.mbridge7SegmentShowHex|block": "Me 數字板 %port| 顯示十六位數字 %num|",
+    "tomatobit.mbridge7SegmentShowDecimalPoint|block": "Me 數字板 %port| 於第 %index| 個位後顯示小數點",
+    "tomatobit.mbridge7SegmentTurnOn|block": "開啟 Me 數字板 %port|",
+    "tomatobit.mbridge7SegmentTurnOff|block": "關閉 Me 數字板 %port|"
 }
