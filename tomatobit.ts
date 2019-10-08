@@ -889,7 +889,7 @@ namespace tomatobit {
     //% weight=2
     export function mbridgeSound(port: PortsA): number {
         let pin = PortAnalog[port];
-        return pins.analogReadPin(pin);
+        return Math.floor(pins.analogReadPin(pin) / 10);
     }
 
     //% blockId="mbridgeLight" block="Me Light sensor %port|"
@@ -897,7 +897,7 @@ namespace tomatobit {
     //% weight=2
     export function mbridgeLight(port: PortsA): number {
         let pin = PortAnalog[port];
-        return pins.analogReadPin(pin);
+        return Math.floor(pins.analogReadPin(pin) / 10);
     }
 
     //% blockId="mbridgePotentiometer" block="Me Potentiometer %port|"
@@ -906,6 +906,6 @@ namespace tomatobit {
     //% advanced=true
     export function mbridgePotentiometer(port: PortsA): number {
         let pin = PortAnalog[port];
-        return pins.analogReadPin(pin);
+        return Math.floor(pins.analogReadPin(pin) / 10);
     }
 }
