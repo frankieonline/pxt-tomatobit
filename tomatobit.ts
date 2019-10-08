@@ -73,8 +73,8 @@ enum PortsA {
 }
 
 enum Slots {
-    Left = 0,
-    Right = 1
+    Left = 1,
+    Right = 0
 }
 
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
@@ -849,8 +849,8 @@ namespace tomatobit {
     //% group="mBridge"
     //% weight=2
     export function mbridgeLineFollowerStatus(port: Ports): number {
-        let pinL = PortDigi[port][0];
-        let pinR = PortDigi[port][1];
+        let pinL = PortDigi[port][1];
+        let pinR = PortDigi[port][0];
         pins.setPull(pinL, PinPullMode.PullUp);
         let pinL_status = (pins.digitalReadPin(pinL) == 1);
         pins.setPull(pinR, PinPullMode.PullUp);
