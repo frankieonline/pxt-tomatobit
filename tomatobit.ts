@@ -925,7 +925,7 @@ namespace tomatobit {
         dio: DigitalPin;
         _ON: number;
         brightness: number;
-        count: number = 4;  // number of LEDs
+        count: number;  // number of LEDs
 
         /** Initial TM1637 */
         init(): void {
