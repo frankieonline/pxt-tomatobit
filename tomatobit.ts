@@ -1007,7 +1007,7 @@ namespace tomatobit {
     //% blockId="mbridge7SegmentShowNumber" block="Me 7-Segment %port| show number %num|"
     //% group="mBridge"
     //% weight=2
-    export function mbridge7SegmentShowNumber(port: Ports, num: number = ): void {
+    export function mbridge7SegmentShowNumber(port: Ports, num: number): void {
         let clk_Pin = PortDigi[port][0];
         let dio_Pin = PortDigi[port][1];
         let TM1637_LEDs = new TM1637LEDs();
