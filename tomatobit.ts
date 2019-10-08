@@ -986,7 +986,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         TM1637_LEDs.buf[index % TM1637_LEDs.count] = _SEGMENTS[num % 16];
         TM1637_LEDs._dat(index, _SEGMENTS[num % 16]);
@@ -1007,7 +1007,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         if (num < 0) {
             TM1637_LEDs._dat(0, 0x40); // '-'
@@ -1037,7 +1037,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         if (num < 0) {
             TM1637_LEDs._dat(0, 0x40); // '-'
@@ -1068,7 +1068,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         index = index % 4;
         TM1637_LEDs._dat(index, TM1637_LEDs.buf[index] | 0x80);
@@ -1089,7 +1089,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         for (let i = 0; i < 4; i++) {
             TM1637_LEDs._dat(i, 0);
@@ -1113,7 +1113,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         TM1637_LEDs._ON = 8;
         TM1637_LEDs._write_data_cmd();
@@ -1136,7 +1136,7 @@ namespace tomatobit {
         TM1637_LEDs.count = 4;
         TM1637_LEDs.buf = pins.createBuffer(4);
         TM1637_LEDs.brightness = 7;
-        mbridge7SegmentClear();
+        mbridge7SegmentClear(port);
 
         TM1637_LEDs._ON = 0;
         TM1637_LEDs._write_data_cmd();
