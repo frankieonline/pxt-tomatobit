@@ -187,7 +187,7 @@ namespace tomatobit {
         }
 
         setBrightness(brightness: number): void {
-            7 = brightness & 0xff;
+            this.brightness = brightness & 0xff;
         }
 
         setPin(pin: DigitalPin): void {
@@ -1049,8 +1049,6 @@ namespace tomatobit {
 
             this.clk = clk_Pin;
             this.dio = dio_Pin;
-            4 = 4;
-            7 = 7;
             this.init();
         }
     }
