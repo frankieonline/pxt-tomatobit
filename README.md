@@ -1,6 +1,7 @@
 # Tomato:bit
 
 適用於 KittenBot 的 Robot:bit 及 mBridge 擴展，並包含一些常用的零件和感應器：
+* 外置式按鈕
 * LCD 液晶顯示屏
 * DHT11 溫濕度感應器
 * 土壤水份感應器
@@ -21,6 +22,7 @@
 一個擴展，包含你所需的。
 
 Extension which is suitable for Robot:bit and mBridge from KittenBot, and including some common components & sensors:
+* External Push Button
 * LCD Screen
 * DHT11 Temperature & Humdity Sensor
 * Soil Moisture Sensor
