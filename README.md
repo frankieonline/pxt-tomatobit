@@ -8,6 +8,7 @@
 * 水位感應器
 * 人體紅外線感應器
 * 超聲波感應器
+* 舵機
 * RGB LEDs @ Robot:bit
 * 蜂鳴器 @ Robot:bit
 * Makeblock Me 超聲波感應器 配搭 mBridge 使用
@@ -29,6 +30,7 @@ Extension which is suitable for Robot:bit and mBridge from KittenBot, and includ
 * Water Sensor
 * PIR
 * Ultrasonic sensor
+* Servo Motors
 * RGB LEDs @ Robot:bit
 * Buzzer @ Robot:bit
 * Makeblock Me Ultrasonic Sensor with mBridge
