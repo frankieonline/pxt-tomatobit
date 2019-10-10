@@ -911,6 +911,6 @@ namespace tomatobit {
     //% advanced=true
     export function mbridgePotentiometer(port: PortsA): number {
         let pin = PortAnalog[port];
-        return Math.floor(pins.analogReadPin(pin) / 10);
+        return pins.analogReadPin(pin);
     }
 }
