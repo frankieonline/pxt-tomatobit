@@ -21,6 +21,35 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
+export enum Motors {
+    M1A = 0x1,
+    M1B = 0x2,
+    M2A = 0x3,
+    M2B = 0x4
+}
+
+export enum Steppers {
+    M1 = 0x1,
+    M2 = 0x2
+}
+
+export enum Turns {
+    //% blockId="T1B4" block="1/4"
+    T1B4 = 90,
+    //% blockId="T1B2" block="1/2"
+    T1B2 = 180,
+    //% blockId="T1B0" block="1"
+    T1B0 = 360,
+    //% blockId="T2B0" block="2"
+    T2B0 = 720,
+    //% blockId="T3B0" block="3"
+    T3B0 = 1080,
+    //% blockId="T4B0" block="4"
+    T4B0 = 1440,
+    //% blockId="T5B0" block="5"
+    T5B0 = 1800
+}
+
 enum DHT11Type {
     //% block=temperature(°C)
     TemperatureC,
@@ -83,7 +112,7 @@ enum JoystickType {
 }
 
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
-//% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD", "NeoPixel"]
+//% groups=["Robot:bit", "Component & Sensor", "mBridge", "LCD", "Motors"]
 namespace tomatobit {
     const PCA9685_ADDRESS = 0x40;
     const MODE1 = 0x00;
@@ -100,6 +129,28 @@ namespace tomatobit {
     const ALL_LED_ON_H = 0xFB;
     const ALL_LED_OFF_L = 0xFC;
     const ALL_LED_OFF_H = 0xFD;
+
+    const STP_CHA_L = 2047;
+    const STP_CHA_H = 4095;
+
+    const STP_CHB_L = 1;
+    const STP_CHB_H = 2047;
+
+    const STP_CHC_L = 1023;
+    const STP_CHC_H = 3071;
+
+    const STP_CHD_L = 3071;
+    const STP_CHD_H = 1023;
+
+    // HT16K33 commands
+    const HT16K33_ADDRESS = 0x70;
+    const HT16K33_BLINK_CMD = 0x80;
+    const HT16K33_BLINK_DISPLAYON = 0x01;
+    const HT16K33_BLINK_OFF = 0;
+    const HT16K33_BLINK_2HZ = 1;
+    const HT16K33_BLINK_1HZ = 2;
+    const HT16K33_BLINK_HALFHZ = 3;
+    const HT16K33_CMD_BRIGHTNESS = 0xE0;
 
     const PortDigi = [
         [DigitalPin.P0, DigitalPin.P8],
@@ -134,7 +185,7 @@ namespace tomatobit {
         * @param rgb RGB color of the LED
         */
         //% blockId="neopixelShowColor" block="Robot:bit LEDs show color %rgb=getNeoPixelKnownColors"
-        //% group="NeoPixel"
+        //% group="Robot:bit"
         //% weight=85 blockGap=8
         neopixelShowColor(rgb: number) {
             rgb = rgb >> 0;
@@ -145,7 +196,7 @@ namespace tomatobit {
         /** Send all the changes to the strip. */
         //% blockId="neopixelShow" blockGap=8
         //% weight=79
-        //% group="NeoPixel"
+        //% group="Robot:bit"
         neopixelShow() {
             sendBuffer(this.buf, this.pin);
         }
@@ -218,7 +269,7 @@ namespace tomatobit {
     */
     //% block="%knownColor"
     //% blockId="getNeoPixelKnownColor"
-    //% group="NeoPixel"
+    //% group="Robot:bit"
     //% weight=1
     //% parts="tomatobit"
     export function getNeoPixelKnownColor(knownColor: NeoPixelKnownColors):number {
@@ -232,7 +283,7 @@ namespace tomatobit {
     */
     //% block="RGB(red: %red| green: %green| blue: %blue| )"
     //% blockId="getRGBColor"
-    //% group="NeoPixel"
+    //% group="Robot:bit"
     //% weight=1
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
@@ -249,7 +300,7 @@ namespace tomatobit {
     */
     //% block="Set Robot:bit LEDs range from %start| with %length| LEDs show color %rgb=getNeoPixelKnownColor"
     //% blockId="setLEDs"
-    //% group="NeoPixel"
+    //% group="Robot:bit"
     //% weight=2
     //% start.min=0 start.max=3
     //% length.min=0 length.max=4
@@ -276,7 +327,7 @@ namespace tomatobit {
     */
     //% block="Turn off all Robot:bit LEDs"
     //% blockId="turnOffAllLEDs"
-    //% group="NeoPixel"
+    //% group="Robot:bit"
     //% weight=2
     //% parts="tomatobit"
     export function turnOffAllLEDs(): void {
@@ -371,7 +422,7 @@ namespace tomatobit {
     * @param degree [0-180] degree of servo; eg: 0, 90, 180
     */
     //% blockId="robotbitServo" block="Servo %index| degree %degree"
-    //% group="Robot:bit"
+    //% group="Motors"
     //% weight=2
     //% parts="tomatobit"
     //% degree.min=0 degree.max=180
@@ -616,7 +667,7 @@ namespace tomatobit {
     }
 
     /** Check if PIR detected human movement
-    * @param pin pin used
+    * @param pin Digital Pin; eg: P0, P1, P2, P8, P12, P13, P14, P15
     */
     //% blockId="robotbitPIR" block="PIR %pin| detected movement?"
     //% group="Component & Sensor"
@@ -626,7 +677,8 @@ namespace tomatobit {
     }
 
     /** When PIR detected human movement
-    * @param pin pin used
+    * @param pin Digital Pin; eg: P0, P1, P2, P8, P12, P13, P14, P15
+    * @param handler function wants to do
     */
     //% blockId="robotbitWhenPIR" block="When PIR %pin| detected movement"
     //% group="Component & Sensor"
@@ -637,7 +689,7 @@ namespace tomatobit {
     }
 
     /** Get water sensor detected value
-    * @param pin pin used
+    * @param pin Analog Pin; eg: P0, P1, P2
     */
     //% blockId="robotbitWaterSensorValue" block="water sensor %pin|"
     //% group="Component & Sensor"
@@ -648,7 +700,7 @@ namespace tomatobit {
     }
 
     /** Check if water sensor detected water
-    * @param pin pin used
+    * @param pin Analog Pin; eg: P0, P1, P2
     */
     //% blockId="robotbitWaterSensor" block="water sensor %pin| detected water?"
     //% group="Component & Sensor"
@@ -658,7 +710,7 @@ namespace tomatobit {
     }
 
     /** Get soil moisture sensor detected value
-    * @param pin pin used
+    * @param pin Analog Pin; eg: P0, P1, P2
     */
     //% blockId="robotbitSoilMoistureSensorValue" block="soil moisture sensor %pin|"
     //% group="Component & Sensor"
@@ -669,7 +721,7 @@ namespace tomatobit {
     }
 
     /** Check if soil moisture sensor detected water
-    * @param pin pin used
+    * @param pin Analog Pin; eg: P0, P1, P2
     */
     //% blockId="robotbitSoilMoistureSensor" block="soil moisture sensor %pin| detected water?"
     //% group="Component & Sensor"
@@ -683,9 +735,9 @@ namespace tomatobit {
     let _humidity: number = 0.0;
     let _readSuccessful: boolean = false;
 
-    /** DHT11 Temperature & Humdity Sensor
-    * @param pin pin used
-    * @param type data wanted
+    /** Return DHT11 Temperature & Humdity Sensor Value
+    * @param pin Digital Pin; eg: P0, P1, P2, P8, P12, P13, P14, P15
+    * @param type Which data what to get; eg: Temperature(°C), Temperature(°F), Humdity(%)
     */
     //% blockId="robotbitTempHumdSensor" block="DHT11 Temperature & Humdity Sensor %pin| %type|"
     //% group="Component & Sensor"
@@ -769,6 +821,9 @@ namespace tomatobit {
         return 999;
     }
 
+    /** Robot:bit + mBridge - Return Me Ultrasonic Sensor detected distance (cm)
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    */
     //% blockId="mbridgeUltrasonic" block="Me Ultrasonic sensor %port|"
     //% group="mBridge"
     //% weight=2
@@ -793,6 +848,9 @@ namespace tomatobit {
         return Math.floor(ret / 6 / 58);
     }
 
+    /** Robot:bit + mBridge - Return Me PIR Sensor is detected movement?
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    */
     //% blockId="mbridgePIR" block="Me PIR %port| detected movement?"
     //% weight=2
     //% group="mBridge"
@@ -802,6 +860,10 @@ namespace tomatobit {
         return pins.digitalReadPin(pin) == 1;
     }
 
+    /** Robot:bit + mBridge - When Me PIR Sensor is detected movement, do...
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    * @param handler function wants to do
+    */
     //% blockId=mbridgeOnPIREvent block="When PIR %port| detected movement"
     //% weight=1
     //% group="mBridge"
@@ -812,6 +874,9 @@ namespace tomatobit {
         pins.onPulsed(pin, PulseValue.High, handler);
     }
 
+    /** Robot:bit + mBridge - Return Me Touch Sensor is touched?
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    */
     //% blockId=mbridgeTouch block="Me Touch sensor %port| is touched?"
     //% group="mBridge"
     //% weight=2
@@ -821,6 +886,10 @@ namespace tomatobit {
         return pins.digitalReadPin(pin) == 0;
     }
 
+    /** Robot:bit + mBridge - When Me Touch Sensor is touched, do...
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    * @param handler function wants to do
+    */
     //% blockId=mbridgeTouchEvent block="When Me Touch sensor %port| is touched"
     //% group="mBridge"
     //% weight=1
@@ -831,6 +900,10 @@ namespace tomatobit {
         pins.onPulsed(pin, PulseValue.Low, handler);
     }
 
+    /** Robot:bit + mBridge - Return Me Line Follower Slot Left / Right is black?
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    * @param slot Line Follower Slot; eg: Left / Right
+    */
     //% blockId="mbridgeLineFollower" block="Me Line Follower %port| slot %slot| is black?"
     //% group="mBridge"
     //% weight=2
@@ -840,6 +913,11 @@ namespace tomatobit {
         return pins.digitalReadPin(pin) == 1;
     }
 
+    /** Robot:bit + mBridge - When Me Line Follower Slot Left / Right is black, do...
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    * @param slot Line Follower Slot; eg: Left / Right
+    * @param handler function wants to do
+    */
     //% blockId=mbridgeLineFollowerEvent block="When Me Line Follower %port| slot %slot| is black"
     //% group="mBridge"
     //% weight=1
@@ -850,6 +928,9 @@ namespace tomatobit {
         pins.onPulsed(pin, PulseValue.High, handler);
     }
 
+    /** Robot:bit + mBridge - Get Me Line Follower Status
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    */
     //% blockId="mbridgeLineFollowerStatus" block="Me Line Follower %port|"
     //% group="mBridge"
     //% weight=2
@@ -867,6 +948,10 @@ namespace tomatobit {
         return -1;
     }
 
+    /** Robot:bit + mBridge - Get Me Temperature & Humdity Sensor Value
+    * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
+    * @param readtype Which data what to get; eg: Temperature(°C), Temperature(°F), Humdity(%)
+    */
     //% blockId="mbridgeDHT11" block="Me Temperature and Humidity Sensor %port| type %readtype|"
     //% group="mBridge"
     //% weight=2
@@ -889,28 +974,272 @@ namespace tomatobit {
         }
     }
 
+    /** Robot:bit + mBridge - Get Me Sound Sensor Value
+    * @param port Analog Port; eg: PORT1, PORT2, PORT3
+    */
     //% blockId="mbridgeSound" block="Me Sound sensor %port|"
     //% group="mBridge"
     //% weight=2
     export function mbridgeSound(port: PortsA): number {
         let pin = PortAnalog[port];
-        return Math.floor(pins.analogReadPin(pin) / 10);
+        return pins.analogReadPin(pin);
     }
 
+    /** Robot:bit + mBridge - Get Me Light Sensor Value
+    * @param port Analog Port; eg: PORT1, PORT2, PORT3
+    */
     //% blockId="mbridgeLight" block="Me Light sensor %port|"
     //% group="mBridge"
     //% weight=2
     export function mbridgeLight(port: PortsA): number {
         let pin = PortAnalog[port];
-        return Math.floor(pins.analogReadPin(pin) / 10);
+        return pins.analogReadPin(pin);
     }
 
+    /** Robot:bit + mBridge - Get Me Potentiometer Value
+    * @param port Analog Port; eg: PORT1, PORT2, PORT3
+    */
     //% blockId="mbridgePotentiometer" block="Me Potentiometer %port|"
     //% group="mBridge"
     //% weight=1
     //% advanced=true
     export function mbridgePotentiometer(port: PortsA): number {
         let pin = PortAnalog[port];
-        return Math.floor(pins.analogReadPin(pin) / 10);
+        return pins.analogReadPin(pin);
+    }
+
+    /** Geek Servo
+    * @param index Servo Channel; eg: S1
+    * @param degree [-45-225] degree of servo; eg: -45, 90, 225
+    */
+    //% blockId="robotbitGeekServo" block="Geek Servo %index| degree %degree|"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    //% degree.min=-45 degree.max=225
+    export function robotbitGeekServo(index: Servos, degree: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        // 50hz: 20,000 us
+        let v_us = ((degree - 90) * 20 / 3 + 1500); // 0.6 ~ 2.4
+        let value = v_us * 4096 / 20000;
+        setPwm(index + 7, 0, value);
+    }
+
+    function setStepper(index: number, dir: boolean): void {
+        if (index == 1) {
+            if (dir) {
+                setPwm(0, STP_CHA_L, STP_CHA_H);
+                setPwm(2, STP_CHB_L, STP_CHB_H);
+                setPwm(1, STP_CHC_L, STP_CHC_H);
+                setPwm(3, STP_CHD_L, STP_CHD_H);
+            } else {
+                setPwm(3, STP_CHA_L, STP_CHA_H);
+                setPwm(1, STP_CHB_L, STP_CHB_H);
+                setPwm(2, STP_CHC_L, STP_CHC_H);
+                setPwm(0, STP_CHD_L, STP_CHD_H);
+            }
+        } else {
+            if (dir) {
+                setPwm(4, STP_CHA_L, STP_CHA_H);
+                setPwm(6, STP_CHB_L, STP_CHB_H);
+                setPwm(5, STP_CHC_L, STP_CHC_H);
+                setPwm(7, STP_CHD_L, STP_CHD_H);
+            } else {
+                setPwm(7, STP_CHA_L, STP_CHA_H);
+                setPwm(5, STP_CHB_L, STP_CHB_H);
+                setPwm(6, STP_CHC_L, STP_CHC_H);
+                setPwm(4, STP_CHD_L, STP_CHD_H);
+            }
+        }
+    }
+
+    function stopMotor(index: number) {
+        setPwm((index - 1) * 2, 0, 0);
+        setPwm((index - 1) * 2 + 1, 0, 0);
+    }
+
+    /** Stepper Motor Degree Control
+    * @param index Steppers Channel; eg: M1
+    * @param degree [-45-225] degree of servo; eg: -45, 90, 225
+    */
+    //% blockId="robotbitStepperDegree" block="Stepper Motor %index| turn to degree %degree"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    export function robotbitStepperDegree(index: Steppers, degree: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        setStepper(index, degree > 0);
+        degree = Math.abs(degree);
+        basic.pause(10240 * degree / 360);
+        robotbitMotorStopAll();
+    }
+
+    /** Stepper Motor Turns Control
+    * @param index Steppers Channel; eg: M1
+    * @param turn turn number
+    */
+    //% blockId="robotbitStepperTurn" block="Stepper Motor 28BYJ-48 %index| turn %turn"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    export function robotbitStepperTurn(index: Steppers, turn: Turns): void {
+        let degree = turn;
+        robotbitStepperDegree(index, degree);
+    }
+
+    /** Dual Stepper Motor Control */
+    //% blockId="robotbitDualStepper" block="Dual Stepper (Degree) M1 %degree1| M2 %degree2"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    export function robotbitDualStepper(degree1: number, degree2: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        setStepper(1, degree1 > 0);
+        setStepper(2, degree2 > 0);
+        degree1 = Math.abs(degree1);
+        degree2 = Math.abs(degree2);
+        basic.pause(10240 * Math.min(degree1, degree2) / 360);
+        if (degree1 > degree2) {
+            stopMotor(3); stopMotor(4);
+            basic.pause(10240 * (degree1 - degree2) / 360);
+        } else {
+            stopMotor(1); stopMotor(2);
+            basic.pause(10240 * (degree2 - degree1) / 360);
+        }
+
+        robotbitMotorStopAll();
+    }
+
+    /** Stepper Car move forward
+     * @param distance Distance to move in cm; eg: 10, 20
+     * @param diameter diameter of wheel in mm; eg: 48
+    */
+    //% blockId="robotbitStpcarMove" block="Car Forward Distance(cm) %distance| Wheel Diameter(mm) %diameter|"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    export function robotbitStpcarMove(distance: number, diameter: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        let delay = 10240 * 10 * distance / 3 / diameter; // use 3 instead of pi
+        setStepper(1, delay > 0);
+        setStepper(2, delay > 0);
+        delay = Math.abs(delay);
+        basic.pause(delay);
+        MotorStopAll();
+    }
+
+    /** Stepper Car turn by degree
+     * @param turn Degree to turn; eg: 90, 180, 360
+     * @param diameter diameter of wheel in mm; eg: 48
+     * @param track track width of car; eg: 125
+    */
+    //% blockId="robotbitStpcarTurn" block="Car Turn|Degree %turn|Wheel Diameter(mm) %diameter|Track(mm) %track"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    export function robotbitStpcarTurn(turn: number, diameter: number, track: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        let delay = 10240 * turn * track / 360 / diameter;
+        setStepper(1, delay < 0);
+        setStepper(2, delay > 0);
+        delay = Math.abs(delay);
+        basic.pause(delay);
+        robotbitMotorStopAll();
+    }
+
+    //% blockId="robotbitMotorRun" block="Motor %index| speed %speed"
+    //% group="Motors"
+    //% weight=1
+    //% speed.min=-255 speed.max=255
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function robotbitMotorRun(index: Motors, speed: number): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        speed = speed * 16; // map 255 to 4096
+        if (speed >= 4096) {
+            speed = 4095;
+        }
+        if (speed <= -4096) {
+            speed = -4095;
+        }
+        if (index > 4 || index <= 0)
+            return;
+        let pp = (index - 1) * 2;
+        let pn = (index - 1) * 2 + 1;
+        if (speed >= 0) {
+            setPwm(pp, 0, speed);
+            setPwm(pn, 0, 0);
+        } else {
+            setPwm(pp, 0, 0);
+            setPwm(pn, 0, -speed);
+        }
+    }
+
+
+    /** Execute two motors at the same time
+     * @param motor1 First Motor; eg: M1A, M1B
+     * @param speed1 [-255-255] speed of motor; eg: 150, -150
+     * @param motor2 Second Motor; eg: M2A, M2B
+     * @param speed2 [-255-255] speed of motor; eg: 150, -150
+    */
+    //% blockId="robotbitMotorDual" block="Motor %motor1| speed %speed1| %motor2| speed %speed2"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    //% speed1.min=-255 speed1.max=255
+    //% speed2.min=-255 speed2.max=255
+    export function robotbitMotorDual(motor1: Motors, speed1: number, motor2: Motors, speed2: number): void {
+        robotbitMotorRun(motor1, speed1);
+        robotbitMotorRun(motor2, speed2);
+    }
+
+    /** Execute single motors with delay
+     * @param index Motor Index; eg: M1A, M1B, M2A, M2B
+     * @param speed [-255-255] speed of motor; eg: 150, -150
+     * @param delay seconde delay to stop; eg: 1
+    */
+    //% blockId="robotbitMotorRunDelay" block="Motor %index| speed %speed| delay %delay| seconds"
+    //% group="Motors"
+    //% weight=1
+    //% advanced=true
+    //% speed.min=-255 speed.max=255
+    export function robotbitMotorRunDelay(index: Motors, speed: number, delay: number): void {
+        robotbitMotorRun(index, speed);
+        basic.pause(delay * 1000);
+        robotbitMotorRun(index, 0);
+    }
+
+    /** Stop the motor
+     * @param index Motor Index; eg: M1A, M1B, M2A, M2B
+    */
+    //% blockId="robotbitMotorStop" block="Motor %index| Stop"
+    //% group="Motors"
+    //% weight=1
+    export function robotbitMotorStop(index: Motors): void {
+        robotbitMotorRun(index, 0);
+    }
+
+    /** Stop the motor */
+    //% blockId="robotbitMotorStopAll" block="Motor Stop All"
+    //% group="Motors"
+    //% weight=1
+    export function robotbitMotorStopAll(): void {
+        if (!initialized) {
+            initPCA9685();
+        }
+        for (let idx = 1; idx <= 4; idx++) {
+            stopMotor(idx);
+        }
     }
 }
