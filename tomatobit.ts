@@ -1117,8 +1117,8 @@ namespace tomatobit {
     }
 
     /** Stepper Car move forward
-     * @param distance Distance to move in cm; eg: 10, 20
-     * @param diameter diameter of wheel in mm; eg: 48
+    * @param distance Distance to move in cm; eg: 10, 20
+    * @param diameter diameter of wheel in mm; eg: 48
     */
     //% blockId="robotbitStpcarMove" block="Car Forward Distance(cm) %distance| Wheel Diameter(mm) %diameter|"
     //% group="Motors"
@@ -1137,9 +1137,9 @@ namespace tomatobit {
     }
 
     /** Stepper Car turn by degree
-     * @param turn Degree to turn; eg: 90, 180, 360
-     * @param diameter diameter of wheel in mm; eg: 48
-     * @param track track width of car; eg: 125
+    * @param turn Degree to turn; eg: 90, 180, 360
+    * @param diameter diameter of wheel in mm; eg: 48
+    * @param track track width of car; eg: 125
     */
     //% blockId="robotbitStpcarTurn" block="Car Turn|Degree %turn|Wheel Diameter(mm) %diameter|Track(mm) %track"
     //% group="Motors"
@@ -1161,7 +1161,6 @@ namespace tomatobit {
     //% group="Motors"
     //% weight=1
     //% speed.min=-255 speed.max=255
-    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
     export function robotbitMotorRun(index: Motors, speed: number): void {
         if (!initialized) {
             initPCA9685();
@@ -1174,7 +1173,7 @@ namespace tomatobit {
             speed = -4095;
         }
         if (index > 4 || index <= 0)
-            return;
+        return;
         let pp = (index - 1) * 2;
         let pn = (index - 1) * 2 + 1;
         if (speed >= 0) {
@@ -1188,10 +1187,10 @@ namespace tomatobit {
 
 
     /** Execute two motors at the same time
-     * @param motor1 First Motor; eg: M1A, M1B
-     * @param speed1 [-255-255] speed of motor; eg: 150, -150
-     * @param motor2 Second Motor; eg: M2A, M2B
-     * @param speed2 [-255-255] speed of motor; eg: 150, -150
+    * @param motor1 First Motor; eg: M1A, M1B
+    * @param speed1 [-255-255] speed of motor; eg: 150, -150
+    * @param motor2 Second Motor; eg: M2A, M2B
+    * @param speed2 [-255-255] speed of motor; eg: 150, -150
     */
     //% blockId="robotbitMotorDual" block="Motor %motor1| speed %speed1| %motor2| speed %speed2"
     //% group="Motors"
@@ -1205,9 +1204,9 @@ namespace tomatobit {
     }
 
     /** Execute single motors with delay
-     * @param index Motor Index; eg: M1A, M1B, M2A, M2B
-     * @param speed [-255-255] speed of motor; eg: 150, -150
-     * @param delay seconde delay to stop; eg: 1
+    * @param index Motor Index; eg: M1A, M1B, M2A, M2B
+    * @param speed [-255-255] speed of motor; eg: 150, -150
+    * @param delay seconde delay to stop; eg: 1
     */
     //% blockId="robotbitMotorRunDelay" block="Motor %index| speed %speed| delay %delay| seconds"
     //% group="Motors"
@@ -1221,7 +1220,7 @@ namespace tomatobit {
     }
 
     /** Stop the motor
-     * @param index Motor Index; eg: M1A, M1B, M2A, M2B
+    * @param index Motor Index; eg: M1A, M1B, M2A, M2B
     */
     //% blockId="robotbitMotorStop" block="Motor %index| Stop"
     //% group="Motors"
