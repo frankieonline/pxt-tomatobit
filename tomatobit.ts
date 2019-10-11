@@ -1034,19 +1034,22 @@ namespace tomatobit {
                 setPwm(2, STP_CHB_L, STP_CHB_H);
                 setPwm(1, STP_CHC_L, STP_CHC_H);
                 setPwm(3, STP_CHD_L, STP_CHD_H);
-            } else {
+            }
+            else {
                 setPwm(3, STP_CHA_L, STP_CHA_H);
                 setPwm(1, STP_CHB_L, STP_CHB_H);
                 setPwm(2, STP_CHC_L, STP_CHC_H);
                 setPwm(0, STP_CHD_L, STP_CHD_H);
             }
-        } else {
+        }
+        else {
             if (dir) {
                 setPwm(4, STP_CHA_L, STP_CHA_H);
                 setPwm(6, STP_CHB_L, STP_CHB_H);
                 setPwm(5, STP_CHC_L, STP_CHC_H);
                 setPwm(7, STP_CHD_L, STP_CHD_H);
-            } else {
+            }
+            else {
                 setPwm(7, STP_CHA_L, STP_CHA_H);
                 setPwm(5, STP_CHB_L, STP_CHB_H);
                 setPwm(6, STP_CHC_L, STP_CHC_H);
@@ -1108,7 +1111,8 @@ namespace tomatobit {
         if (degree1 > degree2) {
             stopMotor(3); stopMotor(4);
             basic.pause(10240 * (degree1 - degree2) / 360);
-        } else {
+        }
+        else {
             stopMotor(1); stopMotor(2);
             basic.pause(10240 * (degree2 - degree1) / 360);
         }
@@ -1172,14 +1176,16 @@ namespace tomatobit {
         if (speed <= -4096) {
             speed = -4095;
         }
-        if (index > 4 || index <= 0)
-        return;
+        if (index > 4 || index <= 0) {
+            return;
+        }
         let pp = (index - 1) * 2;
         let pn = (index - 1) * 2 + 1;
         if (speed >= 0) {
             setPwm(pp, 0, speed);
             setPwm(pn, 0, 0);
-        } else {
+        }
+        else {
             setPwm(pp, 0, 0);
             setPwm(pn, 0, -speed);
         }

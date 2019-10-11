@@ -69,10 +69,10 @@
     "tomatobit.robotbitStepperTurn|block": "步進馬達 %index| 圈數 %turn",
     "tomatobit.robotbitDualStepper|block": "雙步進馬達（角度） |M1 %degree1| M2 %degree2|",
     "tomatobit.robotbitStpcarMove|block": "步進小車 前進距離（cm） %distance| 輪直徑（mm） %diameter|",
-    "tomatobit.robotbitStpcarTurn|block": "步進小車 轉向角度 %turn| 輪直徑（mm）%diameter| 輪距（mm）%track",
-    "tomatobit.robotbitMotorRun|block": "馬達 %index| 速度 %speed",
+    "tomatobit.robotbitStpcarTurn|block": "步進小車 轉向角度 %turn| 輪直徑（mm）%diameter| 輪距（mm）%track|",
+    "tomatobit.robotbitMotorRun|block": "馬達 %index| 速度 %speed|",
     "tomatobit.robotbitMotorDual|block": "馬達 %motor1| 速度 %speed1| %motor2| 速度 %speed2|",
     "tomatobit.robotbitMotorRunDelay|block": "馬達 %index| 速度 %speed| 延時 %delay| 秒",
-    "tomatobit.robotbitMotorStop|block": "馬達 停止 %index|",
+    "tomatobit.robotbitMotorStop|block": "停止馬達 %index|",
     "tomatobit.robotbitMotorStopAll|block": "停止所有馬達"
 }
