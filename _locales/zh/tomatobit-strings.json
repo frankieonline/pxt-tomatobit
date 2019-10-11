@@ -66,7 +66,7 @@
     "tomatobit.mbridgePotentiometer|block": "Me 電位器 %port|",
     "robotbit.robotbitGeekServo|block": "Geek Servo %index| 角度 %degree|",
     "robotbit.robotbitStepperDegree|block": " 步進馬達 %index| 角度 %degree|",
-    "robotbit.robotbitStepperTurn|block": "步進馬達 =%index| 圈數 %turn",
+    "robotbit.robotbitStepperTurn|block": "步進馬達 %index| 圈數 %turn",
     "robotbit.robotbitDualStepper|block": "雙步進馬達（角度） |M1 %degree1| M2 %degree2|",
     "robotbit.robotbitStpcarMove|block": "步進小車 前進距離（cm） %distance| 輪直徑（mm） %diameter|",
     "robotbit.robotbitStpcarTurn|block": "步進小車 轉向角度 %turn| 輪直徑（mm）%diameter| 輪距（mm）%track",
