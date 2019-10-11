@@ -21,19 +21,19 @@ enum NeoPixelKnownColors {
     Black = 0x000000
 }
 
-export enum Motors {
+enum Motors {
     M1A = 0x1,
     M1B = 0x2,
     M2A = 0x3,
     M2B = 0x4
 }
 
-export enum Steppers {
+enum Steppers {
     M1 = 0x1,
     M2 = 0x2
 }
 
-export enum Turns {
+enum Turns {
     //% blockId="T1B4" block="1/4"
     T1B4 = 90,
     //% blockId="T1B2" block="1/2"
@@ -1133,7 +1133,7 @@ namespace tomatobit {
         setStepper(2, delay > 0);
         delay = Math.abs(delay);
         basic.pause(delay);
-        MotorStopAll();
+        robotbitMotorStopAll();
     }
 
     /** Stepper Car turn by degree
