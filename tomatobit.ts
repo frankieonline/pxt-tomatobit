@@ -1,24 +1,33 @@
 enum NeoPixelKnownColors {
     //% block=red
-    Red = 0xFF0000,
+    RED = 0xFF0000,
     //% block=orange
-    Orange = 0xFFA500,
+    ORANGE = 0xFFA500,
     //% block=yellow
-    Yellow = 0xFFFF00,
+    YELLOW = 0xFFFF00,
     //% block=green
-    Green = 0x00FF00,
+    GREEN = 0x00FF00,
     //% block=blue
-    Blue = 0x0000FF,
+    BLUE = 0x0000FF,
     //% block=indigo
-    Indigo = 0x4b0082,
+    INDIGO = 0x4b0082,
     //% block=violet
-    Violet = 0x8a2be2,
+    VIOLET = 0x8a2be2,
     //% block=purple
-    Purple = 0xFF00FF,
+    PURPLE = 0xFF00FF,
     //% block=white
-    White = 0xFFFFFF,
+    WHITE = 0xFFFFFF,
     //% block=black
-    Black = 0x000000
+    BLACK = 0x000000
+}
+
+enum UltrasonicReturnType {
+    //% block=cm
+    CM,
+    //% block=inches
+    INCHES,
+    //% block=milliseconds (ms)
+    MS
 }
 
 enum Motors {
@@ -52,16 +61,16 @@ enum Turns {
 
 enum DHT11Type {
     //% block=temperature(°C)
-    TemperatureC,
+    TEMPERATURE_C,
     //% block=temperature(°F)
-    TemperatureF,
+    TEMPERATURE_F,
     //% block=humidity
-    Humidity
+    HUMIDITY
 }
 
 enum LCD_AddressType {
-    //% block="Auto Recognition (0)"
-    auto = 0,
+    //% block="auto recognition (0)"
+    AUTO = 0,
     //% block="PCF8574 (39)"
     PCF8574 = 39,
     //% block="PCF8574A (63)"
@@ -102,13 +111,8 @@ enum PortsA {
 }
 
 enum Slots {
-    Left = 1,
-    Right = 0
-}
-
-enum JoystickType {
-    X,
-    Y
+    LEFT = 1,
+    RIGHT = 0
 }
 
 //% weight=0 color=#FF6347 icon="\uf1b0" block="Tomato:bit"
@@ -170,11 +174,11 @@ namespace tomatobit {
     function sendBuffer(buf: Buffer, pin: DigitalPin) {
     }
 
-    class Strip {
+    class STRIP {
         buf: Buffer;
         pin: DigitalPin;
         brightness: number;
-        start: number; // start offset in LED strip
+        start: number; // start offset in LEDs strip
         _length: number; // number of LEDs
         _mode: NeoPixelMode;
         _matrixWidth: number; // number of leds in a matrix - if any
@@ -298,7 +302,7 @@ namespace tomatobit {
     * @param length number of LEDs in the range. max: 4
     * @param rgb RGB color of the LEDs
     */
-    //% block="Set Robot:bit LEDs range from %start| with %length| LEDs show color %rgb=getNeoPixelKnownColor"
+    //% block="set Robot:bit LEDs range from %start| with %length| LEDs show color %rgb=getNeoPixelKnownColor"
     //% blockId="setLEDs"
     //% group="Robot:bit"
     //% weight=2
@@ -306,7 +310,7 @@ namespace tomatobit {
     //% length.min=0 length.max=4
     //% parts="tomatobit"
     export function setLEDs(start: number, length: number, rgb: number): void {
-        let strip = new Strip();
+        let strip = new STRIP();
         let pin = DigitalPin.P16;
         start = start >> 0;
         length = length >> 0;
@@ -325,13 +329,13 @@ namespace tomatobit {
 
     /** Turn off all LEDs
     */
-    //% block="Turn off all Robot:bit LEDs"
+    //% block="turn off all Robot:bit LEDs"
     //% blockId="turnOffAllLEDs"
     //% group="Robot:bit"
     //% weight=2
     //% parts="tomatobit"
     export function turnOffAllLEDs(): void {
-        let strip = new Strip();
+        let strip = new STRIP();
         let pin = DigitalPin.P16;
 
         strip.buf = pins.createBuffer(12);
@@ -349,7 +353,7 @@ namespace tomatobit {
     * @param frequency frequency(Hz) that buzzer play
     * @param duration how long should the sound play
     */
-    //% block="Set Robot:bit buzzer play %frequency| (Hz) for %duration| seconds"
+    //% block="set Robot:bit buzzer play %frequency| (Hz) for %duration| seconds"
     //% blockId="setBuzzer"
     //% group="Robot:bit"
     //% weight=2
@@ -421,7 +425,7 @@ namespace tomatobit {
     * @param index Servo Channel; eg: S1
     * @param degree [0-180] degree of servo; eg: 0, 90, 180
     */
-    //% blockId="robotbitServo" block="Servo %index| degree %degree"
+    //% blockId="robotbitServo" block="servo %index| degree %degree"
     //% group="Motors"
     //% weight=2
     //% parts="tomatobit"
@@ -439,7 +443,7 @@ namespace tomatobit {
     /** External button
     * @param ioPin which IO Pin used
     */
-    //% blockId="externalButton" block="External button %ioPin| is pressed?"
+    //% blockId="externalButton" block="external push button %ioPin| is pressed?"
     //% group="Component & Sensor"
     //% weight=2
     export function externalButton(ioPin: DigitalPin): boolean {
@@ -511,7 +515,7 @@ namespace tomatobit {
     * PCF8574 is 39, PCF8574A is 63, 0 for auto recognition
     * @param address is i2c address for LCD
     */
-    //% blockId="lcdSetAddress" block="Initialize LCD, set I2C address as %addr"
+    //% blockId="lcdSetAddress" block="initialize LCD, set I2C address as %addr"
     //% group="LCD"
     //% weight=5
     export function lcdSetAddress(addr: LCD_AddressType): void {
@@ -536,7 +540,7 @@ namespace tomatobit {
     * @param x is LCD column position, eg: 0
     * @param y is LCD row position, eg: 0
     */
-    //% blockId="lcdShowNumber" block="Show number %n| at position x %x| y %y"
+    //% blockId="lcdShowNumber" block="show number %n| at position x %x| y %y on LCD"
     //% group="LCD"
     //% weight=4
     //% x.min=0 x.max=15
@@ -551,7 +555,7 @@ namespace tomatobit {
     * @param x is LCD column position, [0 - 15], eg: 0
     * @param y is LCD row position, [0 - 1], eg: 0
     */
-    //% blockId="lcdShowString" block="Show string %s| at position x %x| y %y"
+    //% blockId="lcdShowString" block="show string %s| at position x %x| y %y on LCD"
     //% group="LCD"
     //% weight=4
     //% x.min=0 x.max=15
@@ -573,7 +577,7 @@ namespace tomatobit {
 
     /** Turn on LCD Display
     */
-    //% blockId="lcdOn" block="Turn on LCD"
+    //% blockId="lcdOn" block="turn on LCD screen"
     //% group="LCD"
     //% weight=1
     //% advanced=true
@@ -583,7 +587,7 @@ namespace tomatobit {
 
     /** Turn off LCD Display
     */
-    //% blockId="lcdOff" block="Turn off LCD"
+    //% blockId="lcdOff" block="turn off LCD screen"
     //% group="LCD"
     //% weight=1
     //% advanced=true
@@ -593,7 +597,7 @@ namespace tomatobit {
 
     /** Clear LCD Display
     */
-    //% blockId="lcdClear" block="Clear LCD display"
+    //% blockId="lcdClear" block="clear LCD display"
     //% group="LCD"
     //% weight=3
     //% advanced=true
@@ -603,7 +607,7 @@ namespace tomatobit {
 
     /** Turn on LCD Backlight
     */
-    //% blockId="lcdBacklightOn" block="Turn on LCD Backlight"
+    //% blockId="lcdBacklightOn" block="turn on LCD backlight"
     //% group="LCD"
     //% weight=1
     //% advanced=true
@@ -614,7 +618,7 @@ namespace tomatobit {
 
     /** Turn off LCD Backlight
     */
-    //% blockId="lcdBacklightOff" block="Turn off LCD Backlight"
+    //% blockId="lcdBacklightOff" block="turn off LCD backlight"
     //% group="LCD"
     //% weight=1
     //% advanced=true
@@ -625,7 +629,7 @@ namespace tomatobit {
 
     /** Screen shift left
     */
-    //% blockId="lcdShiftLeft" block="LCD Screen shift left"
+    //% blockId="lcdShiftLeft" block="LCD screen content shift left"
     //% group="LCD"
     //% weight=2
     //% advanced=true
@@ -635,7 +639,7 @@ namespace tomatobit {
 
     /** Screen shift right
     */
-    //% blockId="lcdShiftRight" block="LCD Screen shift right"
+    //% blockId="lcdShiftRight" block="LCD screen content shift right"
     //% group="LCD"
     //% weight=2
     //% advanced=true
@@ -644,11 +648,12 @@ namespace tomatobit {
     }
 
     /** Send a ultrasonic ping and get the echo time (in microseconds) as a result
+    * @param returnType return type; eg: cm, inch, ms
     * @param trigPin tigger pin
     * @param echoPin echo pin
     * @param maxCmDistance maximum distance in centimeters (default is 400)
     */
-    //% blockId="robotbitUltrasonic" block="Distance (cm) that ultrasonic Sensor Trig %trigPin| Echo %echoPin| detected"
+    //% blockId="robotbitUltrasonic" block="distance (cm) that ultrasonic Sensor Trig %trigPin| Echo %echoPin| detected"
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitUltrasonic(trigPin: DigitalPin, echoPin: DigitalPin, maxCmDistance = 500): number {
@@ -680,7 +685,7 @@ namespace tomatobit {
     * @param pin Digital Pin; eg: P0, P1, P2, P8, P12, P13, P14, P15
     * @param handler function wants to do
     */
-    //% blockId="robotbitWhenPIR" block="When PIR %pin| detected movement"
+    //% blockId="robotbitWhenPIR" block="when PIR %pin| detected movement, "
     //% group="Component & Sensor"
     //% weight=1
     //% advanced=true
@@ -739,7 +744,7 @@ namespace tomatobit {
     * @param pin Digital Pin; eg: P0, P1, P2, P8, P12, P13, P14, P15
     * @param type Which data what to get; eg: Temperature(°C), Temperature(°F), Humdity(%)
     */
-    //% blockId="robotbitTempHumdSensor" block="DHT11 Temperature & Humdity Sensor %pin| %type|"
+    //% blockId="robotbitTempHumdSensor" block="DHT11 temperature & humdity sensor %pin| %type|"
     //% group="Component & Sensor"
     //% weight=2
     export function robotbitTempHumdSensor(pin: DigitalPin, type: DHT11Type): number {
@@ -799,13 +804,13 @@ namespace tomatobit {
             _temperatureC = resultArray[2] + resultArray[3] / 100;
             _temperatureF = _temperatureC * 1.8 + 32;
             _humidity = resultArray[0] + resultArray[1] / 100;
-            if (type == DHT11Type.TemperatureC) {
+            if (type == DHT11Type.TEMPERATURE_C) {
                 return Math.floor(_temperatureC);
             }
-            else if (type == DHT11Type.TemperatureF) {
+            else if (type == DHT11Type.TEMPERATURE_F) {
                 return Math.floor(_temperatureF);
             }
-            else if (type == DHT11Type.Humidity) {
+            else if (type == DHT11Type.HUMIDITY) {
                 return Math.floor(_humidity);
             }
         }
@@ -864,7 +869,7 @@ namespace tomatobit {
     * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
     * @param handler function wants to do
     */
-    //% blockId=mbridgeOnPIREvent block="When PIR %port| detected movement"
+    //% blockId=mbridgeOnPIREvent block="when Me PIR Sensor %port| detected movement"
     //% weight=1
     //% group="mBridge"
     //% advanced=true
@@ -877,7 +882,7 @@ namespace tomatobit {
     /** Robot:bit + mBridge - Return Me Touch Sensor is touched?
     * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
     */
-    //% blockId=mbridgeTouch block="Me Touch sensor %port| is touched?"
+    //% blockId=mbridgeTouch block="Me touch sensor %port| is touched?"
     //% group="mBridge"
     //% weight=2
     export function mbridgeTouch(port: Ports): boolean {
@@ -890,7 +895,7 @@ namespace tomatobit {
     * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
     * @param handler function wants to do
     */
-    //% blockId=mbridgeTouchEvent block="When Me Touch sensor %port| is touched"
+    //% blockId=mbridgeTouchEvent block="when Me touch sensor %port| is touched"
     //% group="mBridge"
     //% weight=1
     //% advanced=true
@@ -904,7 +909,7 @@ namespace tomatobit {
     * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
     * @param slot Line Follower Slot; eg: Left / Right
     */
-    //% blockId="mbridgeLineFollower" block="Me Line Follower %port| slot %slot| is black?"
+    //% blockId="mbridgeLineFollower" block="Me line follower %port| slot %slot| is black?"
     //% group="mBridge"
     //% weight=2
     export function mbridgeLineFollower(port: Ports, slot: Slots): boolean {
@@ -918,7 +923,7 @@ namespace tomatobit {
     * @param slot Line Follower Slot; eg: Left / Right
     * @param handler function wants to do
     */
-    //% blockId=mbridgeLineFollowerEvent block="When Me Line Follower %port| slot %slot| is black"
+    //% blockId=mbridgeLineFollowerEvent block="when Me line follower %port| slot %slot| is black"
     //% group="mBridge"
     //% weight=1
     //% advanced=true
@@ -931,7 +936,7 @@ namespace tomatobit {
     /** Robot:bit + mBridge - Get Me Line Follower Status
     * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
     */
-    //% blockId="mbridgeLineFollowerStatus" block="Me Line Follower %port|"
+    //% blockId="mbridgeLineFollowerStatus" block="Me line follower %port| status"
     //% group="mBridge"
     //% weight=2
     export function mbridgeLineFollowerStatus(port: Ports): number {
@@ -952,7 +957,7 @@ namespace tomatobit {
     * @param port Digital Port; eg: PORT1, PORT2, PORT3, PORT4
     * @param readtype Which data what to get; eg: Temperature(°C), Temperature(°F), Humdity(%)
     */
-    //% blockId="mbridgeDHT11" block="Me Temperature and Humidity Sensor %port| type %readtype|"
+    //% blockId="mbridgeDHT11" block="Me temperature and humidity sensor %port| type %readtype|"
     //% group="mBridge"
     //% weight=2
     export function mbridgeDHT11(port: Ports, readtype: DHT11Type): number {
@@ -977,7 +982,7 @@ namespace tomatobit {
     /** Robot:bit + mBridge - Get Me Sound Sensor Value
     * @param port Analog Port; eg: PORT1, PORT2, PORT3
     */
-    //% blockId="mbridgeSound" block="Me Sound sensor %port|"
+    //% blockId="mbridgeSound" block="Me sound sensor %port|"
     //% group="mBridge"
     //% weight=2
     export function mbridgeSound(port: PortsA): number {
@@ -988,7 +993,7 @@ namespace tomatobit {
     /** Robot:bit + mBridge - Get Me Light Sensor Value
     * @param port Analog Port; eg: PORT1, PORT2, PORT3
     */
-    //% blockId="mbridgeLight" block="Me Light sensor %port|"
+    //% blockId="mbridgeLight" block="Me light sensor %port|"
     //% group="mBridge"
     //% weight=2
     export function mbridgeLight(port: PortsA): number {
@@ -999,7 +1004,7 @@ namespace tomatobit {
     /** Robot:bit + mBridge - Get Me Potentiometer Value
     * @param port Analog Port; eg: PORT1, PORT2, PORT3
     */
-    //% blockId="mbridgePotentiometer" block="Me Potentiometer %port|"
+    //% blockId="mbridgePotentiometer" block="Me potentiometer %port|"
     //% group="mBridge"
     //% weight=1
     //% advanced=true
@@ -1012,7 +1017,7 @@ namespace tomatobit {
     * @param index Servo Channel; eg: S1
     * @param degree [-45-225] degree of servo; eg: -45, 90, 225
     */
-    //% blockId="robotbitGeekServo" block="Geek Servo %index| degree %degree|"
+    //% blockId="robotbitGeekServo" block="geek servo %index| degree %degree|"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1067,7 +1072,7 @@ namespace tomatobit {
     * @param index Steppers Channel; eg: M1
     * @param degree [-45-225] degree of servo; eg: -45, 90, 225
     */
-    //% blockId="robotbitStepperDegree" block="Stepper Motor %index| turn to degree %degree"
+    //% blockId="robotbitStepperDegree" block="stepper motor %index| turn to degree %degree"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1085,7 +1090,7 @@ namespace tomatobit {
     * @param index Steppers Channel; eg: M1
     * @param turn turn number
     */
-    //% blockId="robotbitStepperTurn" block="Stepper Motor 28BYJ-48 %index| turn %turn"
+    //% blockId="robotbitStepperTurn" block="stepper motor %index| turn %turn"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1095,7 +1100,7 @@ namespace tomatobit {
     }
 
     /** Dual Stepper Motor Control */
-    //% blockId="robotbitDualStepper" block="Dual Stepper (Degree) M1 %degree1| M2 %degree2"
+    //% blockId="robotbitDualStepper" block="dual stepper (degree) M1 %degree1| M2 %degree2"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1124,7 +1129,7 @@ namespace tomatobit {
     * @param distance Distance to move in cm; eg: 10, 20
     * @param diameter diameter of wheel in mm; eg: 48
     */
-    //% blockId="robotbitStpcarMove" block="Car Forward Distance(cm) %distance| Wheel Diameter(mm) %diameter|"
+    //% blockId="robotbitStpcarMove" block="car move forward distance(cm) %distance| where wheel diameter(mm) is %diameter|"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1145,7 +1150,7 @@ namespace tomatobit {
     * @param diameter diameter of wheel in mm; eg: 48
     * @param track track width of car; eg: 125
     */
-    //% blockId="robotbitStpcarTurn" block="Car Turn|Degree %turn|Wheel Diameter(mm) %diameter|Track(mm) %track"
+    //% blockId="robotbitStpcarTurn" block="car turn degree %turn| where wheel diameter(mm) is %diameter| track(mm) %track"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1161,7 +1166,7 @@ namespace tomatobit {
         robotbitMotorStopAll();
     }
 
-    //% blockId="robotbitMotorRun" block="Motor %index| speed %speed"
+    //% blockId="robotbitMotorRun" block="motor %index| speed %speed"
     //% group="Motors"
     //% weight=1
     //% speed.min=-255 speed.max=255
@@ -1198,7 +1203,7 @@ namespace tomatobit {
     * @param motor2 Second Motor; eg: M2A, M2B
     * @param speed2 [-255-255] speed of motor; eg: 150, -150
     */
-    //% blockId="robotbitMotorDual" block="Motor %motor1| speed %speed1| %motor2| speed %speed2"
+    //% blockId="robotbitMotorDual" block="motor %motor1| speed %speed1| %motor2| speed %speed2"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1214,7 +1219,7 @@ namespace tomatobit {
     * @param speed [-255-255] speed of motor; eg: 150, -150
     * @param delay seconde delay to stop; eg: 1
     */
-    //% blockId="robotbitMotorRunDelay" block="Motor %index| speed %speed| delay %delay| seconds"
+    //% blockId="robotbitMotorRunDelay" block="motor %index| speed %speed| delay %delay| seconds"
     //% group="Motors"
     //% weight=1
     //% advanced=true
@@ -1228,7 +1233,7 @@ namespace tomatobit {
     /** Stop the motor
     * @param index Motor Index; eg: M1A, M1B, M2A, M2B
     */
-    //% blockId="robotbitMotorStop" block="Motor %index| Stop"
+    //% blockId="robotbitMotorStop" block="motor %index| stop"
     //% group="Motors"
     //% weight=1
     export function robotbitMotorStop(index: Motors): void {
@@ -1236,7 +1241,7 @@ namespace tomatobit {
     }
 
     /** Stop the motor */
-    //% blockId="robotbitMotorStopAll" block="Motor Stop All"
+    //% blockId="robotbitMotorStopAll" block="motor stop all"
     //% group="Motors"
     //% weight=1
     export function robotbitMotorStopAll(): void {
