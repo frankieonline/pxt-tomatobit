@@ -970,9 +970,9 @@ namespace tomatobit {
             dht11Temp = (value & 0x0000ff00) >> 8;
             dht11Humi = value >> 24;
         }
-        if (readtype == DHT11Type.TemperatureC) {
+        if (readtype == DHT11Type.TEMPERATURE_C) {
             return dht11Temp;
-        } else if (readtype == DHT11Type.TemperatureF) {
+        } else if (readtype == DHT11Type.TEMPERATURE_F) {
             return Math.floor(dht11Temp * 9 / 5) + 32;
         } else {
             return dht11Humi;
