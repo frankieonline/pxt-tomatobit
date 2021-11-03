@@ -13,5 +13,6 @@
         "sendBuffer.asm",
         "_locales/zh/tomatobit-strings.json"
     ],
-    "public": true
+    "public": true, 
+    "disablesVariants": ["mbcodal"]
 }
